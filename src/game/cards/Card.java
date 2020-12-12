@@ -1,28 +1,55 @@
 package game.cards;
 
-import java.io.Serializable;
-
-public abstract class Card  implements Serializable{
+public abstract class Card{
 	
-
+	private int attack;
+	private int health;
+	
+	public Card() {
+		attack = getDefaultAttack();
+		health = getDefaultHealth();
+	}
     /**
      * retourne un entier coresspondant a l'attaque de la carte
      * @return
      */
-    public abstract int getAttack();
-
-    /**
+    public final int getAttack() {
+    	return attack;
+    }
+    
+	/**
      * retourne la santé de la carte
      * @return
      */
-    public abstract int getHealth();
+    public final int getHealth() {
+		return health;
+	}
 
+    public abstract int getDefaultAttack();
+    public abstract int getDefaultHealth();
+    
+    /**
+     * evenement déclanché au placement de la carte
+     */
+    public void onCardPlaced(){};
+    /**
+     * évenement déclenché a la mort de la carte
+     */
+    public void onCardDestroyed(){};
+    /**
+     * évenement déclenché au debut de tour
+     */
+    public void onTurnStart(){};
     
     @Override
     public String toString() {
     	return ""+CardRegistery.get(this.getClass());
     }
     
+    /**
+     * retourne le cout de la carte
+     * @return
+     */
     public abstract int getCost();
 }
 

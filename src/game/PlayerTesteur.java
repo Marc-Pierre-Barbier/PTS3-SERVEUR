@@ -16,7 +16,7 @@ public class PlayerTesteur {
 		}
 		
 		try {
-			com.send("ping");
+			com.send(Command.PING);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("une erreur c'est produite l'ors du ping");
