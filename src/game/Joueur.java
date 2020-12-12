@@ -6,6 +6,7 @@ import java.net.Socket;
 import game.cards.Card;
 import game.cards.CardRegistery;
 import game.deck.Deck;
+import game.deck.DeckRegistery;
 
 public class Joueur {
 
