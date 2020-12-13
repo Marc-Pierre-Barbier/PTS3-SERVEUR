@@ -1,7 +1,6 @@
 package game;
 
 import java.io.IOException;
-import java.net.Socket;
 
 import game.cards.Card;
 import game.cards.CardRegistery;
@@ -9,8 +8,6 @@ import game.deck.Deck;
 import game.deck.DeckRegistery;
 
 public class Joueur {
-
-	private Socket connection;
 	private ComsJoueur coms;
 	private Deck deck;
 	private Hand hand;
@@ -19,9 +16,8 @@ public class Joueur {
 	private int mana;
 
 	
-	public Joueur(Socket connectionJoueur) throws IOException {
-		connection=connectionJoueur;
-		coms = new ComsJoueur(connection);
+	public Joueur(ComsJoueur connectionJoueur) throws IOException {
+		coms=connectionJoueur;
 		pV =20;
 	}
 
@@ -75,13 +71,17 @@ public class Joueur {
 		//debut de l'écoude des action client
 		while(phaseActive)
 		{
-			String command = (String) coms.recieve();
+			String command;
+			command = (String) coms.recieve();
+
+			System.out.println("GOT COMMAND :"+command);
 			if(command != null)
 			{
 				switch (command) {
 				
 				case Command.PING:
 					coms.send(Command.PONG);
+					System.out.println("pong");
 					break;
 					
 				case Command.PASS_TURN:
@@ -90,6 +90,9 @@ public class Joueur {
 					
 				case Command.PUT_CARD:
 					putCard(adversaire,board);
+					break;
+				case "time out":
+					System.exit(0);
 					break;
 					
 				default:
@@ -162,8 +165,8 @@ public class Joueur {
 		
 	}
 
-	public Socket getConnection() {
-		return connection;
+	public ComsJoueur getComs() {
+		return coms;
 	}
 	
 	public void setPV(int pV) {

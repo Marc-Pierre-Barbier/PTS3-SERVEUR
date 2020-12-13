@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import game.ComsJoueur;
 import game.Match;
 import game.PlayerTesteur;
 
@@ -16,7 +17,7 @@ public class Serveur {
 		ServerSocket tCPserver = null;
 		try {
 			tCPserver = new ServerSocket(port, 50, InetAddress.getByName(host));
-			tCPserver.setSoTimeout(250);// 250 de ping max
+			//tCPserver.setSoTimeout();
 		} catch (UnknownHostException e1) {// cette exception ne s'affichera jammais vu que l'on utilise localhost
 		} catch (IOException e1) {
 			System.err.println(
@@ -24,47 +25,53 @@ public class Serveur {
 			return;
 		}
 
-		// l'udp est un protocole plus rapide que le tcp si on a des probleme de latence
-		// voila une solution
-		// mais il est moin fiable
-		// DatagramSocket uDPServeur = new DatagramSocket(port);
-		// uDPServeur.setSoTimeout(500);//si au bout d'une demi-seconde on a pas de
-		// réponse alors le client est hs
-
 		System.out.println("server ready");
 
 		Socket joueur1EnAttente = null;
+		ComsJoueur joueur1Com = null;
 		Socket joueur2EnAttente = null;
+		ComsJoueur joueur2Com = null;
+		
 		while (true) {
 			if (joueur1EnAttente == null) {
 				try {
 					joueur1EnAttente = tCPserver.accept();
+					joueur1Com = new ComsJoueur(joueur1EnAttente);
 					System.out.println("joueur1 trouvé");
 				} catch (IOException e) {
 					joueur1EnAttente = null;
+					joueur1Com=null;
 				}
 			}
 			if (joueur2EnAttente == null) {
 				try {
 					joueur2EnAttente = tCPserver.accept();
+					joueur2Com = new ComsJoueur(joueur2EnAttente);
 					System.out.println("joueur2 trouvé");
 				} catch (IOException e) {
 					joueur2EnAttente = null;
+					joueur2Com=null;
 				}
 			}
-			if (joueur1EnAttente != null && joueur2EnAttente != null) {
+			if (joueur1EnAttente != null && joueur1Com != null && joueur2EnAttente != null && joueur2Com != null) {
 				try {
-					if (PlayerTesteur.playerTest(joueur1EnAttente)) {
-						if (PlayerTesteur.playerTest(joueur2EnAttente)) {
-							new Match(joueur1EnAttente, joueur2EnAttente);
+					if (PlayerTesteur.playerTest(joueur1Com)) {
+						if (PlayerTesteur.playerTest(joueur2Com)) {
+							new Match(joueur1Com,joueur2Com);
 							System.out.println("match lancé");
 						} else {
 							// le joueur est cassé donc on le retire de la file d'attente
+							System.out.println("j2 invalid");
+							joueur2EnAttente.close();
 							joueur2EnAttente = null;
+							joueur2Com=null;
 						}
 					} else {
 						// le joueur est cassé donc on le retire de la file d'attente
+						System.out.println("j1 invalid");
+						joueur1EnAttente.close();
 						joueur1EnAttente = null;
+						joueur1Com=null;
 					}
 
 				} catch (IOException e) {

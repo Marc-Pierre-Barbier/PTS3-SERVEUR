@@ -97,7 +97,7 @@ import game.cards.Renaissance.Rennaissance_Vlad;
 public class CardRegistery {
     public static List<Class<? extends Card>> registry;
 
-    public CardRegistery()
+    private static void initCardRegistery()
     {
         registry = new ArrayList<>();
 
@@ -205,17 +205,25 @@ public class CardRegistery {
     }
 
     public static int get(Class<? extends Card> class1) {
+    	checkregistry();
         int a = registry.indexOf(class1);
         return a != -1 ? a : 0;
     }
 
     public static Class<? extends Card> get(int index) {
+    	checkregistry();
     	if(registry.size() <= index || index < 0) return null;
         return registry.get(index);
     }
 
 
     public static int get(Card card) {
+    	checkregistry();
         return get(card.getClass());
+    }
+    
+    public static void checkregistry()
+    {
+    	if(registry == null)initCardRegistery();
     }
 }

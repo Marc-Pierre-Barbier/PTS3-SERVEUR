@@ -1,23 +1,22 @@
 package game;
 
 import java.io.IOException;
-import java.net.Socket;
 
 public class Match extends Thread {
 	Joueur joueur1, joueur2;
 	int tour = 1;
 	private Board board;
 
-	public Match(Socket j1, Socket j2) throws IOException {
+	public Match(ComsJoueur joueur1Com, ComsJoueur joueur2Com) throws IOException {
 		super();
 		this.board=new Board();
 		// random j2/j1
 		if (Math.random() > 0.5F) {
-			joueur1 = new Joueur(j1);
-			joueur2 = new Joueur(j2);
+			joueur1 = new Joueur(joueur1Com);
+			joueur2 = new Joueur(joueur2Com);
 		} else {
-			joueur1 = new Joueur(j2);
-			joueur2 = new Joueur(j1);
+			joueur1 = new Joueur(joueur2Com);
+			joueur2 = new Joueur(joueur1Com);
 		}
 
 		joueur1.requestDataEarlyGameData();
@@ -47,7 +46,7 @@ public class Match extends Thread {
 	}
 
 	private void endGameAfterIssue() {
-		if(PlayerTesteur.playerTest(joueur1.getConnection()))
+		if(PlayerTesteur.playerTest(joueur1.getComs()))
 		{
 			try {
 				joueur1.win();
@@ -55,7 +54,7 @@ public class Match extends Thread {
 				e.printStackTrace();
 			}
 		}
-		if(PlayerTesteur.playerTest(joueur2.getConnection()))
+		if(PlayerTesteur.playerTest(joueur2.getComs()))
 		{
 			try {
 				joueur2.win();
