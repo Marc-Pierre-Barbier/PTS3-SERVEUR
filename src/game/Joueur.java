@@ -66,22 +66,24 @@ public class Joueur {
 		
 		//on affiche le debut de tour
 		coms.send(Command.YOURTURN);
+		System.out.println("NOW WE SHOULDN'T SEND COMMAND");
 		
 		boolean phaseActive=true;
 		//debut de l'écoude des action client
+		adversaire.getComs().getSocket().setSoTimeout(Integer.MAX_VALUE);
 		while(phaseActive)
 		{
-			String command;
-			command = (String) coms.recieve();
-
-			System.out.println("GOT COMMAND :"+command);
-			if(command != null)
+			coms.getSocket().setSoTimeout(500);
+			String command = (String) coms.recieve();
+			coms.getSocket().setSoTimeout(Integer.MAX_VALUE);
+			if(command != null && !command.equals("time out"))
 			{
+				System.out.println("GOT COMMAND :"+command);
+
 				switch (command) {
 				
 				case Command.PING:
 					coms.send(Command.PONG);
-					System.out.println("pong");
 					break;
 					
 				case Command.PASS_TURN:
@@ -89,34 +91,32 @@ public class Joueur {
 					break;
 					
 				case Command.PUT_CARD:
+					System.out.println("entering put card");
 					putCard(adversaire,board);
-					break;
-				case "time out":
-					System.exit(0);
 					break;
 					
 				default:
-					coms.send(Command.POPUP);
-					coms.send("vous ne pouvez pas faire sa a la premiére phase");
-					break;
+					System.err.println("unknown command "+command);
 				}
+				
 			}
-			
-			//on maintien l'adversaire actif en lui envoyant un ping
-			adversaire.ping();
 		}
 	}
 
 	private void putCard(Joueur adversaire, Board board) throws IOException {
-		Object info = coms.recieve();
-		if(info instanceof String) {
-			System.err.println((String)info);
+		//crash here
+		String info = (String) coms.recieve();
+		//si ce n'est pas un nombre
+		if(!info.matches("-?\\d+")) {
+			System.err.println(info);
 		}else {
-			int cardId = (int)info;
+			int cardId = Integer.parseInt(info);
 			
 			Class<? extends Card> cardClass = CardRegistery.get(cardId);
+			System.out.println(cardClass.getName());
 			
-			int zone = (int)coms.recieve();
+			
+			int zone = Integer.parseInt(coms.recieve());
 			
 			int handIndex = hand.contains(cardClass);
 			if(handIndex == -1)coms.send(Command.NOK);
@@ -139,20 +139,6 @@ public class Joueur {
 		coms.send(Command.PUT_ENEMY_CARD);
 		coms.send(cardId);
 		coms.send(zone);
-	}
-
-	/**
-	 * envoie ping au jour et retourne vrai si le joueur a repondu
-	 * @return
-	 */
-	private boolean ping() {
-		try {
-			coms.send(Command.PING);
-		} catch (IOException e) {
-			return false;
-		}
-		return coms.recieve().equals(Command.PONG);//pong
-		
 	}
 
 	public void mainPhase2() {

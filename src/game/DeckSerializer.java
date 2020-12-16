@@ -6,17 +6,28 @@ import game.deck.Deck;
 public class DeckSerializer {
 	public static String serializeDeck(Deck d)
 	{
+		return forwardSerialisze(d);
+		
+	}
+	
+	private static String reverseSerialisze(Deck d)
+	{
 		StringBuilder str = new StringBuilder(d.getCards().size()*2);
-		for(Card c : d.getCards())
+		Card[] cardArray = d.getCards().toArray(new Card[0]);
+		for(int i = cardArray.length -1 ; i >= 0 ; i--)
 		{
-			str.append(c.toString()+",");
+			str.append(cardArray[i]+",");
 		}
 		return str.toString();
 	}
 	
-	public static Deck deSerializeDeck(String g)
+	private static String forwardSerialisze(Deck d)
 	{
-		return null;
-		
+		StringBuilder str = new StringBuilder(d.getCards().size()*2);
+		for(Card c : d.getCards())
+		{
+			str.append(c+",");
+		}
+		return str.toString();
 	}
 }

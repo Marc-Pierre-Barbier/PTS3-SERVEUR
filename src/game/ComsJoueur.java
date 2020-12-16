@@ -8,24 +8,27 @@ import java.net.Socket;
 public class ComsJoueur {
 	private ObjectOutputStream serverOut;
 	private ObjectInputStream serverIn;
+	private Socket socket;
 	
 	public ComsJoueur(Socket connection) throws IOException
 	{
 		serverOut = new ObjectOutputStream(connection.getOutputStream());
 		serverIn = new ObjectInputStream(connection.getInputStream());
+		this.socket=connection;
 	}
 	
-	public void send(Object object) throws IOException
+	public void send(String message) throws IOException
 	{
-		serverOut.writeObject(object);
+		serverOut.writeObject(message);
+		System.out.println("Sending "+message);
 	}
 	
-	public Object recieve()
+	public String recieve()
 	{
 		try {
-			return serverIn.readObject();
+			return (String) serverIn.readObject();
 		} catch (ClassNotFoundException e) {
-			System.err.println("ERREUR une classe non trouvé a éte transimise , essayer de n'evoyer que des String au possible");
+			System.err.println("ERREUR une classe non trouvé a éte transimise , essayer de n'evoyer que des String");
 			return "";
 		} catch (IOException e) {
 			return "time out";
@@ -43,5 +46,14 @@ public class ComsJoueur {
 	{
 		serverOut.close();
 		serverIn.close();
+	}
+	
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void send(int cardId) throws IOException {
+		send(""+cardId);
+		
 	}
 }

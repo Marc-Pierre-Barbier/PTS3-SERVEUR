@@ -18,8 +18,7 @@ public final class Command {
     public static final String WIN = "win";
     public static final String LOSE = "lose";
     public static final String PING = "ping";
-	public static final Object PONG = "pong";
-	public static final Object NOK = "nok";
-	public static final Object OK = "ok";
-
+	public static final String PONG = "pong";
+	public static final String NOK = "nok";
+	public static final String OK = "ok";
 }

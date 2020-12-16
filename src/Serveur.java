@@ -59,6 +59,10 @@ public class Serveur {
 						if (PlayerTesteur.playerTest(joueur2Com)) {
 							new Match(joueur1Com,joueur2Com);
 							System.out.println("match lancé");
+							joueur2EnAttente = null;
+							joueur2Com=null;
+							joueur1EnAttente = null;
+							joueur1Com=null;
 						} else {
 							// le joueur est cassé donc on le retire de la file d'attente
 							System.out.println("j2 invalid");
