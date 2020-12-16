@@ -1,17 +1,20 @@
 package game;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Match extends Thread {
 	Joueur joueur1, joueur2;
 	int tour = 1;
 	private Board board;
+	private Random rand;
 
 	public Match(ComsJoueur joueur1Com, ComsJoueur joueur2Com) throws IOException {
 		super();
 		this.board=new Board();
 		// random j2/j1
-		if (Math.random() > 0.5F) {
+		rand = new Random();
+		if (rand.nextBoolean()) {
 			joueur1 = new Joueur(joueur1Com);
 			joueur2 = new Joueur(joueur2Com);
 		} else {
