@@ -80,7 +80,7 @@ public class Joueur {
 		while(phaseActive)
 		{
 			coms.getSocket().setSoTimeout(500);
-			String command = (String) coms.recieve();
+			String command = coms.recieve();
 			coms.getSocket().setSoTimeout(Integer.MAX_VALUE);
 			if(command != null && !command.equals("time out"))
 			{
@@ -124,14 +124,20 @@ public class Joueur {
 			
 			
 			int zone = Integer.parseInt(coms.recieve());
-			
-			int handIndex = hand.contains(cardClass);
-			if(handIndex == -1)coms.send(Command.NOK);
+
+
+			Card handCard = hand.contains(cardClass);
+
+			//si la carte n'est pas trouve ou si elle coute trop cher
+			if(handCard == null || mana < handCard.getCost()){
+				//on refuse le placement
+				coms.send(Command.NOK);
+			}
 			else {
 				if(board.isZoneAvaliable(zone))
 				{
-					Card card = hand.remove(handIndex);
-					board.setCard(zone, card);
+					hand.remove(handCard);
+					board.setCard(zone, handCard);
 					adversaire.enemyPlay(cardId,zone);
 					coms.send(Command.OK);
 				}else {

@@ -34,25 +34,30 @@ public class Hand {
 	}
 
 	/**
-	 * retourne l'index de la carte
+	 * retourne la carte si elle est contenu dans la main de la carte
 	 * @param c la classe  de la carte cherché
-	 * @return -1 si elle n'est pas trouver
+	 * @return null si elle n'est pas trouver
 	 */
-	public int contains(Class<? extends Card> c) {
-		int index = 0;
+	public Card contains(Class<? extends Card> c) {
 		for(Card ca : hand)
 		{
 			if(ca.getClass().equals(c))
 			{
-				return index; 
+				return ca;
 			}
-			index++;
 		}
-		return -1;
+		return null;
 	}
 
-	public Card remove(int index) {
-		return hand.remove(index);
+	/**
+	 * retire la carte
+	 * @param c carte a retirer
+	 * @return si la carte a été retirer
+	 */
+	public Boolean remove(Card c)
+	{
+		return hand.remove(c);
+
 	}
 
 	public boolean isFull() {
