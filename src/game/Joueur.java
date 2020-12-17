@@ -16,11 +16,15 @@ public class Joueur {
 	private int mana;
 
 	
-	public Joueur(ComsJoueur connectionJoueur) throws IOException {
+	public Joueur(ComsJoueur connectionJoueur) {
 		coms=connectionJoueur;
 		pV =20;
 	}
 
+	/**
+	 * cette fonction permet d'obtenir le deck du joueur et de préparer la main
+	 * @throws IOException
+	 */
 	public void requestDataEarlyGameData() throws IOException {
 		coms.send(Command.GET_DECK);
 		String deckname = coms.recieve();
@@ -31,7 +35,12 @@ public class Joueur {
 		draw(5);
 		
 	}
-	
+
+	/**
+	 * cette fonction permet de pioche une quantité donné
+	 * @param amount la quantié
+	 * @throws IOException
+	 */
 	public void draw(int amount) throws IOException
 	{
 		coms.send(Command.DRAW);
@@ -39,14 +48,26 @@ public class Joueur {
 		hand.draw(amount);
 	}
 
+	/**
+	 * affiche sur l'ecran que c'est le tours de l'adversaire
+	 * @throws IOException
+	 */
 	public void debutTourEnemie() throws IOException {
 		coms.send(Command.ENEMYTURN);
 	}
 
+	/**
+	 * affiche un menu de victoire
+	 * @throws IOException
+	 */
 	public void win() throws IOException {
 		coms.send(Command.WIN);
 	}
-	
+
+	/**
+	 * affiche un menu de defaite
+	 * @throws IOException
+	 */
 	public void lose() throws IOException {
 		coms.send(Command.LOSE);
 	}
@@ -109,6 +130,8 @@ public class Joueur {
 		}
 	}
 
+	//cette mothode est utilisé l'orse qu'un joueur utilise Command.PLACECARD
+	//elle verifie si le joueur peut la jouer et refuse ou confirme en fonction
 	private void putCard(Joueur adversaire, Board board) throws IOException {
 		String info = coms.recieve();
 		//si ce n'est pas un nombre
@@ -148,15 +171,23 @@ public class Joueur {
 		
 	}
 
+	/**
+	 * cette fonctoin est appelé affin de placer une carte sur le plateur énemie
+	 * @param cardId
+	 * @param zone
+	 * @throws IOException
+	 */
 	private void enemyPlay(int cardId,int zone) throws IOException {
 		coms.send(Command.PUT_ENEMY_CARD);
 		coms.send(cardId);
 		coms.send(zone);
 	}
 
+	/**
+	 * cette methode a pour but d'executé les evenement de fin de trous des cartes
+	 */
 	public void endPhase() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public ComsJoueur getComs() {
@@ -176,22 +207,37 @@ public class Joueur {
 	{
 		return !isDead();
 	}
-	
+
+	/**
+	 * envoie le message donné qui aparaitera alors comme une toast
+	 * @param message
+	 * @throws IOException
+	 */
 	public void sendMessage(String message) throws IOException
 	{
 		coms.send(Command.POPUP);
 		coms.send(message);
 	}
 
+	/**
+	 * affiche le debut de tours
+	 * @throws IOException
+	 */
 	public void yourturn() throws IOException {
 		//on affiche le debut de tour
 		coms.send(Command.YOURTURN);
 	}
 
+
 	public boolean isHandFull() {
 		return hand.isFull();
 	}
 
+	/**
+	 * retire le nombre de carte donné du deck
+	 * @param nbcard nombre de carte a supprimé
+	 * @throws IOException
+	 */
 	public void meule(int nbcard) throws IOException {
 		coms.send(Command.MEULE);
 		coms.send(nbcard);

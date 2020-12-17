@@ -94,6 +94,9 @@ import game.cards.Renaissance.Rennaissance_Skanderberg;
 import game.cards.Renaissance.Rennaissance_Succession_Bourgogne;
 import game.cards.Renaissance.Rennaissance_Vlad;
 
+/**
+ * cette carte est un registre contenant toutes les cartes cela permet de sérialisé les cartes entre le client et le servuer avec un minimum d'information
+ */
 public class CardRegistery {
     public static List<Class<? extends Card>> registry;
 
@@ -204,25 +207,32 @@ public class CardRegistery {
         registry.add(Moyen_Age_Pouvoir_Du_Franc.class);
     }
 
+    /**
+     * retourne l'index de la carte donné en argument
+     * @param class1 la class de la carte
+     * @return index
+     */
     public static int get(Class<? extends Card> class1) {
-    	checkregistry();
+    	checkRegistry();
         int a = registry.indexOf(class1);
         return a != -1 ? a : 0;
     }
 
+    /**
+     * retourne la class de la carte a l'index donné
+     * @param index index de la class
+     * @return class de la carte
+     */
     public static Class<? extends Card> get(int index) {
-    	checkregistry();
+    	checkRegistry();
     	if(registry.size() <= index || index < 0) return null;
         return registry.get(index);
     }
 
-
-    public static int get(Card card) {
-    	checkregistry();
-        return get(card.getClass());
-    }
-    
-    public static void checkregistry()
+    /**
+     * verifie si le registre existe sinon le crée
+     */
+    private static void checkRegistry()
     {
     	if(registry == null)initCardRegistery();
     }

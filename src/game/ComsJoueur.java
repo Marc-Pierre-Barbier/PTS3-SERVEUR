@@ -16,13 +16,26 @@ public class ComsJoueur {
 		serverIn = new ObjectInputStream(connection.getInputStream());
 		this.socket=connection;
 	}
-	
+
+	/**
+	 * envoie un message sous forme de chaine de caractére
+	 * le choix de la chaine de caractére permet déviter des crash on n'a pas euh de cours sur le reseau
+	 * donc ce genre de communication est assez obscure pour nous
+	 * @param message
+	 * @throws IOException
+	 */
 	public void send(String message) throws IOException
 	{
 		serverOut.writeObject(message);
 		System.out.println("Sending "+message);
 	}
-	
+
+
+	/**
+	 * recoit une chaine de caractére
+	 * voire la description de send() pour des info suplementaire
+	 * @return
+	 */
 	public String recieve()
 	{
 		try {
@@ -34,26 +47,32 @@ public class ComsJoueur {
 			return "time out";
 		}
 	}
-	
-	public Object waitAndRecieve()
-	{
-		String returnVal;
-		while((returnVal =(String) recieve())!= null);
-		return returnVal;
-	}
-	
+
+	/**
+	 * ferme la connection a la fin du match
+	 * @throws IOException
+	 */
 	public void close() throws IOException
 	{
 		serverOut.close();
 		serverIn.close();
 	}
-	
+
+	/**
+	 * retourne le socket de connection
+	 * @return
+	 */
 	public Socket getSocket() {
 		return socket;
 	}
 
-	public void send(int cardId) throws IOException {
-		send(""+cardId);
+	/**
+	 * envoie un entier en le convertissant en chaine
+	 * @param message
+	 * @throws IOException
+	 */
+	public void send(int message) throws IOException {
+		send(""+message);
 		
 	}
 }

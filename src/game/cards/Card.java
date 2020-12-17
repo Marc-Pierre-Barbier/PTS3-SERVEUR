@@ -25,7 +25,16 @@ public abstract class Card{
 		return health;
 	}
 
+    /**
+     * l'attack par defaut des cartes
+     * @return
+     */
     public abstract int getDefaultAttack();
+
+    /**
+     * les point de vie par default de la carte
+     * @return
+     */
     public abstract int getDefaultHealth();
     
     /**

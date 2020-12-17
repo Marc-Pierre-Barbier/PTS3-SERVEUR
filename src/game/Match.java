@@ -38,6 +38,7 @@ public class Match extends Thread {
 				tour(joueur2);
 			} catch (IOException e) {
 				endGameAfterIssue();
+				return;
 			}
 		}
 		try {
@@ -47,6 +48,9 @@ public class Match extends Thread {
 		}
 	}
 
+	/**
+	 * si le jeu a un crash il faut que si un joueur ai perdu la connection l'autre gagne
+	 */
 	private void endGameAfterIssue() {
 		if(PlayerTesteur.playerTest(joueur1.getComs()))
 		{
@@ -64,8 +68,12 @@ public class Match extends Thread {
 				e.printStackTrace();
 			}
 		}
-		joueur1.setPV(0);
-		joueur2.setPV(0);
+		try {
+			joueur1.getComs().close();
+		} catch (IOException e) {}
+		try {
+			joueur2.getComs().close();
+		} catch (IOException e) {}
 	}
 
 	//annonce du vainqueur et du perdant
@@ -77,9 +85,15 @@ public class Match extends Thread {
 			joueur1.win();
 			joueur2.lose();
 		}
+		joueur1.getComs().close();
+		joueur2.getComs().close();
 	}
 
-	//enchainement d'action que fait un joueur durant son tour
+	/**
+	 * enchainement d'acction effectué durant un tours
+	 * @param joueur joueur effectuant les actions
+	 * @throws IOException
+	 */
 	private void tour(Joueur joueur) throws IOException {
 		//on affiche le message du debut de tour enemie
 		Joueur enemy = joueur.equals(joueur1) ? joueur2 : joueur1;

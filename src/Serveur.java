@@ -14,10 +14,10 @@ public class Serveur {
 		final String host = "localhost";
 		final int port = 10430;
 
+		//socket du serveur permet la connection de client
 		ServerSocket tCPserver = null;
 		try {
 			tCPserver = new ServerSocket(port, 50, InetAddress.getByName(host));
-			//tCPserver.setSoTimeout();
 		} catch (UnknownHostException e1) {// cette exception ne s'affichera jammais vu que l'on utilise localhost
 		} catch (IOException e1) {
 			System.err.println(
@@ -27,6 +27,7 @@ public class Serveur {
 
 		System.out.println("server ready");
 
+		//la file d'attente
 		Socket joueur1EnAttente = null;
 		ComsJoueur joueur1Com = null;
 		Socket joueur2EnAttente = null;
