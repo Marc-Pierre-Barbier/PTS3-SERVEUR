@@ -22,8 +22,8 @@ public class Joueur {
 	}
 
 	public void requestDataEarlyGameData() throws IOException {
-		coms.send("getDeck");
-		String deckname = (String) coms.recieve();
+		coms.send(Command.GET_DECK);
+		String deckname = coms.recieve();
 		deck = DeckRegistery.get(deckname);
 		deck.shuffle();
 		hand = new Hand(deck);
@@ -52,25 +52,31 @@ public class Joueur {
 	}
 
 	/**
+	 * cette commande doit être utilisé a chaque début de tour elle permet d'augmenter la mana du joueur
+	 * @throws IOException
+	 */
+	public void prepMana() throws IOException {
+		//on prepare la mana
+		if(currentMana < 10)currentMana++;
+		mana=currentMana;
+		coms.send(Command.SETMANA);
+		coms.send(mana);
+	}
+
+
+	/**
 	 * premiére phase de jeu avant d'attacker
 	 * @param adversaire
 	 * @param board 
 	 * @throws IOException
 	 */
 	public void mainPhase1(Joueur adversaire, Board board) throws IOException {
-		//on prepare la mana
-		if(currentMana < 10)currentMana++;
-		mana=currentMana;
-		coms.send(Command.SETMANA);
-		coms.send(mana);
-		
-		//on affiche le debut de tour
-		coms.send(Command.YOURTURN);
 		System.out.println("NOW WE SHOULDN'T SEND COMMAND");
 		
 		boolean phaseActive=true;
-		//debut de l'écoude des action client
+		//on retire le time out sur l'adversaire car sa peut causer des désyncronisatoin et des crash
 		adversaire.getComs().getSocket().setSoTimeout(Integer.MAX_VALUE);
+		//debut de l'écoude des action client
 		while(phaseActive)
 		{
 			coms.getSocket().setSoTimeout(500);
@@ -104,12 +110,13 @@ public class Joueur {
 	}
 
 	private void putCard(Joueur adversaire, Board board) throws IOException {
-		//crash here
-		String info = (String) coms.recieve();
+		String info = coms.recieve();
 		//si ce n'est pas un nombre
 		if(!info.matches("-?\\d+")) {
+			//alors on affiche l'inforamtion si la sortie d'erreur
 			System.err.println(info);
 		}else {
+			//on recupére la carte
 			int cardId = Integer.parseInt(info);
 			
 			Class<? extends Card> cardClass = CardRegistery.get(cardId);
@@ -141,11 +148,6 @@ public class Joueur {
 		coms.send(zone);
 	}
 
-	public void mainPhase2() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void endPhase() {
 		// TODO Auto-generated method stub
 		
@@ -171,7 +173,22 @@ public class Joueur {
 	
 	public void sendMessage(String message) throws IOException
 	{
-		coms.send("pupup");
+		coms.send(Command.POPUP);
 		coms.send(message);
+	}
+
+	public void yourturn() throws IOException {
+		//on affiche le debut de tour
+		coms.send(Command.YOURTURN);
+	}
+
+	public boolean isHandFull() {
+		return hand.isFull();
+	}
+
+	public void meule(int nbcard) throws IOException {
+		coms.send(Command.MEULE);
+		coms.send(nbcard);
+		deck.draw(1);
 	}
 }

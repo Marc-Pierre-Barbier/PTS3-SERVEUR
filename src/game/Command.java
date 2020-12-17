@@ -1,6 +1,7 @@
 package game;
 public final class Command {
-	private Command(){} // pas de contructor on ne veut pas instancier cette classe
+
+    private Command(){} // pas de contructor on ne veut pas instancier cette classe
     public static final String YOURTURN="yourturn";
     public static final String DRAW = "draw";
     public static final String GET_DECK = "getDeck";
@@ -21,4 +22,6 @@ public final class Command {
 	public static final String PONG = "pong";
 	public static final String NOK = "nok";
 	public static final String OK = "ok";
+    public static final String MEULE = "meule";
+
 }

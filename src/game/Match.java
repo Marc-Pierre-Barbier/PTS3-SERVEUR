@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class Match extends Thread {
 	Joueur joueur1, joueur2;
-	int tour = 1;
 	private Board board;
 	private Random rand;
 
@@ -85,13 +84,24 @@ public class Match extends Thread {
 		//on affiche le message du debut de tour enemie
 		Joueur enemy = joueur.equals(joueur1) ? joueur2 : joueur1;
 		
+
+		//si la main du joeur n'est pas pleine
+		if(!joueur.isHandFull())joueur.draw(1); //pioche 1 carte
+		else{
+			//sinon on pert une carte
+			joueur.meule(1);
+		}
+		//on prepare la mana
+		joueur.prepMana();
+		//on dit au joeur que c'est a lui de jouer
+		joueur.yourturn();
+		//et on dit au joueur oposé que ce n'est pas le tien
 		enemy.debutTourEnemie();
 
-		joueur.draw(1); //pioche 1 carte
-		
+
 		joueur.mainPhase1(enemy,board); //Joue autant de carte qu'il veut/peut
 		battlePhase(joueur);//lance des attaques à son adversaire qui peut répliquer
-		joueur.mainPhase2();//Nouvelle phase ou le @joueur peut jouer ses cartes si il veut/peut
+		//cette phases ne serira surment pas car nous manquon de temps pour implrementer les fonctionnalité specifique de certaine cartes
 		joueur.endPhase();//fin du tour du @joueur
 	}
 

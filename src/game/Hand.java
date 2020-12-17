@@ -9,17 +9,27 @@ import game.deck.Deck;
 public class Hand {
 	List<Card> hand;
 	private Deck deck;
+	private static final int MAX_CARD_IN_HAND = 5;
 
 	public Hand(Deck deck) {
 		this.deck=deck;
 		this.hand = new ArrayList<>();
 	}
 
-	//TODO limiter le nombre de carte 
+	/**
+	 * permet de piocher des carte depuis le deck et de les mettre dans la main
+	 * @param i nombre de carte pioché
+	 *
+	 * si la main est pleine alors il arettra de pioché et se mettera a meulé
+	 */
 	public void draw(int i) {
 		for(int j=0 ; j < i ; j++)
 		{
-			hand.add(deck.getCards().pop());
+			if(!isFull())hand.add(deck.draw());
+			else{
+				//si la main est pleine alors la carte pioché est perdu
+				deck.draw();
+			}
 		}
 	}
 
@@ -45,4 +55,7 @@ public class Hand {
 		return hand.remove(index);
 	}
 
+	public boolean isFull() {
+		return hand.size() == MAX_CARD_IN_HAND;
+	}
 }
