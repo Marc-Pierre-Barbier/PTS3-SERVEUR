@@ -91,8 +91,8 @@ public class Match extends Thread {
 		
 		joueur.mainPhase1(enemy,board); //Joue autant de carte qu'il veut/peut
 		battlePhase(joueur);//lance des attaques à son adversaire qui peut répliquer
-		joueur.mainPhase2();//Nouvelle phase ou le @joueur peut jouer ses cartes si il veut/peut
-		joueur.endPhase();//fin du tour du @joueur
+		//ne sera peut-ếtre pas utilisé vu que on sapproche trop vite de la datte butoire
+		joueur.endPhase();//fin du tour du @joueur peut être utiliser pour les actions auto des cartes
 	}
 
 	private void battlePhase(Joueur joueur) {
