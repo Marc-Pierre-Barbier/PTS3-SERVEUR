@@ -60,5 +60,21 @@ public abstract class Card{
      * @return
      */
     public abstract int getCost();
+    
+    /**
+     * diminue les point de vie de la carte
+     * @param amountOfHpToLose nombre de hp a perdre
+     * @return renvoie true sur si la carte est a 0hp
+     */
+    public boolean takeDamage(int amountOfHpToLose)
+    {
+    	if(health <= amountOfHpToLose)
+    	{
+    		health = 0;
+    	}else {
+    		health -= amountOfHpToLose;
+    	}
+		return health == 0;
+    }
 }
 

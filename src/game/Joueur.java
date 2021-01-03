@@ -11,6 +11,7 @@ public class Joueur {
 	private ComsJoueur coms;
 	private Deck deck;
 	private Hand hand;
+	private Board board;
 	private int pV;
 	private int currentMana=0;
 	private int mana;
@@ -19,6 +20,7 @@ public class Joueur {
 	public Joueur(ComsJoueur connectionJoueur) {
 		coms=connectionJoueur;
 		pV =20;
+		this.board=new Board();
 	}
 
 	/**
@@ -91,9 +93,7 @@ public class Joueur {
 	 * @param board 
 	 * @throws IOException
 	 */
-	public void mainPhase1(Joueur adversaire, Board board) throws IOException {
-		System.out.println("NOW WE SHOULDN'T SEND COMMAND");
-		
+	public void mainPhase1(Joueur adversaire) throws IOException {		
 		boolean phaseActive=true;
 		//on retire le time out sur l'adversaire car sa peut causer des désyncronisatoin et des crash
 		adversaire.getComs().getSocket().setSoTimeout(Integer.MAX_VALUE);
@@ -135,7 +135,7 @@ public class Joueur {
 	private void putCard(Joueur adversaire, Board board) throws IOException {
 		String info = coms.recieve();
 		//si ce n'est pas un nombre
-		if(!info.matches("-?\\d+")) {
+		if(!isInt(info)) {
 			//alors on affiche l'inforamtion si la sortie d'erreur
 			System.err.println(info);
 		}else {
@@ -154,6 +154,7 @@ public class Joueur {
 			//si la carte n'est pas trouve ou si elle coute trop cher
 			if(handCard == null || mana < handCard.getCost()){
 				//on refuse le placement
+				System.out.println("no mana or no card");
 				coms.send(Command.NOK);
 			}
 			else {
@@ -164,11 +165,16 @@ public class Joueur {
 					adversaire.enemyPlay(cardId,zone);
 					coms.send(Command.OK);
 				}else {
+					System.out.println("the zone is not avaliable");
 					coms.send(Command.NOK);
 				}
 			}
 		}
 		
+	}
+
+	private boolean isInt(String info) {
+		return info.matches("-?\\d+");
 	}
 
 	/**
@@ -242,5 +248,82 @@ public class Joueur {
 		coms.send(Command.MEULE);
 		coms.send(nbcard);
 		deck.draw(1);
+	}
+	
+	public void battlePhase(Joueur adversaire) throws IOException
+	{
+		coms.send(Command.BATTLE);
+		
+		boolean phaseActive = true;
+		
+		adversaire.getComs().getSocket().setSoTimeout(Integer.MAX_VALUE);
+		//debut de l'écoude des action client
+		
+		while(phaseActive)
+		{
+			coms.getSocket().setSoTimeout(500);
+			String command = coms.recieve();
+			coms.getSocket().setSoTimeout(Integer.MAX_VALUE);
+			if(command != null && !command.equals("time out"))
+			{
+				System.out.println("GOT COMMAND :"+command);
+
+				switch (command) {
+				
+				case Command.PING:
+					coms.send(Command.PONG);
+					break;
+					
+				case Command.PASS_TURN:
+					phaseActive=false;
+					break;
+					
+				case Command.ATTACK:
+					//numero de la zone de la carte attaquante 
+					String carteAttaquante = coms.recieve();
+					//numero de la zone de la carte ciblé
+					String carteCible = coms.recieve();
+					if(!isInt(carteAttaquante) || !isInt(carteCible))throw new RuntimeException("non number zone recived in attack phase");
+					Card attackingCard = board.getCardInZone(Integer.parseInt(carteAttaquante));
+					Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
+					
+					if(attackedCard ==null || attackingCard == null)
+					{
+						board.printDebugBoard();
+						throw new RuntimeException("error invalid  carteCible:"+carteCible + " carteAttaquante : "+carteAttaquante);
+					}
+					
+					System.out.println("FIGHT " + "carteCible:"+carteCible + " carteAttaquante : "+carteAttaquante);
+					
+					boolean isDestroyed = attackedCard.takeDamage(attackingCard.getAttack());
+					if(isDestroyed)
+					{
+						//on suprime la carte du terrain
+						board.setCard(Integer.parseInt(carteCible), null);
+						
+						//demande a l'adversaire de retirer la carte de son terrain
+						adversaire.getComs().send(Command.DESTROY_CARD);
+						adversaire.getComs().send(carteCible);
+						
+						//retire la carte au terrain adverse
+						this.getComs().send(Command.DESTROY_ADV_CARD);
+						this.getComs().send(carteCible);
+						
+						//appelle les effet de quand la carte est détruite
+						//NOTE : non implémenter dans les cartes individuelles par manque de temps
+						attackedCard.onCardDestroyed();
+					}
+					break;
+					
+				default:
+					System.err.println("unknown command "+command);
+				}
+				
+			}
+		}
+	}
+
+	private Board getBoard() {
+		return board;
 	}
 }
