@@ -2,6 +2,10 @@ package game;
 
 import game.cards.Card;
 
+/**
+ * cette classe est le terrain du jeu
+ * tout les carte placé sur le terrain sont stocké ici
+ */
 public class Board {
 
 	private Card[] board;

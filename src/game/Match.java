@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class Match extends Thread {
 	Joueur joueur1, joueur2;
-	int tour = 1;
 	private Board board;
 	private Random rand;
 
@@ -39,6 +38,7 @@ public class Match extends Thread {
 				tour(joueur2);
 			} catch (IOException e) {
 				endGameAfterIssue();
+				return;
 			}
 		}
 		try {
@@ -48,6 +48,9 @@ public class Match extends Thread {
 		}
 	}
 
+	/**
+	 * si le jeu a un crash il faut que si un joueur ai perdu la connection l'autre gagne
+	 */
 	private void endGameAfterIssue() {
 		if(PlayerTesteur.playerTest(joueur1.getComs()))
 		{
@@ -65,8 +68,12 @@ public class Match extends Thread {
 				e.printStackTrace();
 			}
 		}
-		joueur1.setPV(0);
-		joueur2.setPV(0);
+		try {
+			joueur1.getComs().close();
+		} catch (IOException e) {}
+		try {
+			joueur2.getComs().close();
+		} catch (IOException e) {}
 	}
 
 	//annonce du vainqueur et du perdant
@@ -78,21 +85,38 @@ public class Match extends Thread {
 			joueur1.win();
 			joueur2.lose();
 		}
+		joueur1.getComs().close();
+		joueur2.getComs().close();
 	}
 
-	//enchainement d'action que fait un joueur durant son tour
+	/**
+	 * enchainement d'acction effectué durant un tours
+	 * @param joueur joueur effectuant les actions
+	 * @throws IOException
+	 */
 	private void tour(Joueur joueur) throws IOException {
 		//on affiche le message du debut de tour enemie
 		Joueur enemy = joueur.equals(joueur1) ? joueur2 : joueur1;
 		
+
+		//si la main du joeur n'est pas pleine
+		if(!joueur.isHandFull())joueur.draw(1); //pioche 1 carte
+		else{
+			//sinon on pert une carte
+			joueur.meule(1);
+		}
+		//on prepare la mana
+		joueur.prepMana();
+		//on dit au joeur que c'est a lui de jouer
+		joueur.yourturn();
+		//et on dit au joueur oposé que ce n'est pas le tien
 		enemy.debutTourEnemie();
 
-		joueur.draw(1); //pioche 1 carte
-		
+
 		joueur.mainPhase1(enemy,board); //Joue autant de carte qu'il veut/peut
 		battlePhase(joueur);//lance des attaques à son adversaire qui peut répliquer
-		//ne sera peut-ếtre pas utilisé vu que on sapproche trop vite de la datte butoire
-		joueur.endPhase();//fin du tour du @joueur peut être utiliser pour les actions auto des cartes
+		//cette phases ne serira surment pas car nous manquon de temps pour implrementer les fonctionnalité specifique de certaine cartes
+		joueur.endPhase();//fin du tour du @joueur
 	}
 
 	private void battlePhase(Joueur joueur) {
