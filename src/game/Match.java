@@ -30,30 +30,36 @@ public class Match extends Thread {
 	// gameplay
 	@Override
 	public void run() {
+		//cette variable permet de decider le gagnant en cas d'erreur reseau
+		boolean isJ1Turn=true;
 		while (joueur1.isAlive() &&  joueur2.isAlive()) {
 			try {
 				tour(joueur1);
-				tour(joueur2);
+				isJ1Turn=false;
+				if(joueur2.isAlive())tour(joueur2);
+				isJ1Turn=true;
 			} catch (IOException e) {
-				endGameAfterIssue();
+				endGameAfterIssue(isJ1Turn);
 				return;
 			}
 		}
 		try {
 			endMatch();
 		} catch (IOException e) {
-			endGameAfterIssue();
+			endGameAfterIssue(isJ1Turn);
 		}
 	}
 
 	/**
 	 * si le jeu a un crash il faut que si un joueur ai perdu la connection l'autre gagne
+	 * @param isJ1Turn 
 	 */
-	private void endGameAfterIssue() {
+	private void endGameAfterIssue(boolean isJ1Turn) {
 		if(PlayerTesteur.playerTest(joueur1.getComs()))
 		{
 			try {
-				joueur1.win();
+				if(isJ1Turn)joueur1.win();
+				else joueur1.lose();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -61,7 +67,8 @@ public class Match extends Thread {
 		if(PlayerTesteur.playerTest(joueur2.getComs()))
 		{
 			try {
-				joueur2.win();
+				if(!isJ1Turn)joueur2.win();
+				else joueur2.lose();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -114,7 +121,7 @@ public class Match extends Thread {
 		joueur.mainPhase1(enemy); //Joue autant de carte qu'il veut/peut
 		joueur.battlePhase(enemy);//lance des attaques à son adversaire qui peut répliquer
 		//cette phases ne serira surment pas car nous manquon de temps pour implrementer les fonctionnalité specifique de certaine cartes
-		joueur.endPhase();//fin du tour du @joueur
+		if(enemy.isAlive())joueur.endPhase();//fin du tour du @joueur
 	}
 
 }

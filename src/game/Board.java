@@ -28,14 +28,4 @@ public class Board {
 		return board[zone];
 	}
 
-	public void printDebugBoard() {
-		for(Card c : board)
-		{
-			if(c == null) System.out.print("X");
-			else System.out.print("O");
-		}
-		System.out.println();
-		
-	}
-
 }

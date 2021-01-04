@@ -5,7 +5,7 @@ package game;
  */
 public final class Command {
 
-    private Command(){} // pas de contructor on ne veut pas instancier cette classe
+	private Command(){} // pas de contructor on ne veut pas instancier cette classe
     public static final String YOURTURN="yourturn"; // commande de debut de tours
     public static final String DRAW = "draw"; //demande a pioché
     public static final String GET_DECK = "getDeck"; // demande le deck
@@ -26,10 +26,6 @@ public final class Command {
     public static final String DESTROY_CARD = "destroyself"; //demande au clien de retirer une carte du terrain
     public static final String DESTROY_ADV_CARD = "destroyadv"; //demande au client de retirer une carte adverse du terrain
 	public static final String BATTLE = "battlephase";
-
-
-    //inutilisé
-    public static final String SELECT_CARD = "selectCard";
-    public static final String DEFEND = "defend";
-    public static final String CAST_SPELL = "castSpell";
+    public static final String SET_ENEMY_HP = "setenemhp";
+	public static final String SET_HP = "sethp";
 }
