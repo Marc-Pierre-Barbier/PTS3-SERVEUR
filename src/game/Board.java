@@ -1,5 +1,8 @@
 package game;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 import game.cards.Card;
 
 /**
@@ -27,5 +30,9 @@ public class Board {
 	public Card getCardInZone(int zone) {
 		return board[zone];
 	}
+
+	public Iterator<Card> getIterator(){
+          return Arrays.stream(board).iterator();
+    }
 
 }
