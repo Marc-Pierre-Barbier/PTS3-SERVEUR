@@ -1,6 +1,7 @@
 package game;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import game.cards.Card;
 import game.cards.CardRegistery;
@@ -219,12 +220,14 @@ public class Joueur {
 	 * cette methode a pour but d'executé les evenement de fin de trous des cartes
 	 */
 	public void endPhase() {
-		for (int i = 0; i < board.getNumberCardInZone(); i++) {
-			Card c = board.getCardInZone(i);
-			if (c != null) {
-				c.resetAttack();
-			}
-		}
+		Iterator<Card> it = board.getIterator();
+        while(it.hasNext())
+        {
+        Card c = it.next();
+            if (c != null) {
+                c.resetAttack();
+            }
+        }
 	}
 
 	public ComsJoueur getComs() {
@@ -317,16 +320,17 @@ public class Joueur {
 					if (attackingCard == null) {
 						throw new RuntimeException("invalid attack");
 					} else {
-						if (carteCible.equals("100") && attackingCard.alreadyAttack()) {
+						if (carteCible.equals("100") && !attackingCard.hasAlreadyAttacked()) {
 							boolean isadvDead = handleAttackAgainstPlayer(attackingCard, adversaire);
 							if(isadvDead)
 							{
 								phaseActive = false;
 							}
+							attackingCard.hasAttacked();
 						} else {
-							if (attackingCard.alreadyAttack()) {
+							if (!attackingCard.hasAlreadyAttacked()) {
 								handleAttackAgainstCard(attackingCard, carteCible, adversaire);
-								attackingCard.haveAttack();
+								attackingCard.hasAttacked();
 							}
 						}
 					}

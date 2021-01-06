@@ -4,7 +4,7 @@ public abstract class Card{
 	
 	private int attack;
 	private int health;
-	private boolean notPlay=true;
+	private boolean hasAttacked=true;
 	
 	public Card() {
 		attack = getDefaultAttack();
@@ -78,16 +78,16 @@ public abstract class Card{
 		return health == 0;
     }
     
-	public boolean alreadyAttack() {
-		return notPlay;
+	public boolean hasAlreadyAttacked() {
+		return hasAttacked;
 	}
 	
-	public void haveAttack() {
-		notPlay = false;
+	public void hasAttacked() {
+		hasAttacked = true;
 	}
 	
 	public void resetAttack() {
-		notPlay=true;
+		hasAttacked=false;
 	}
 }
 
