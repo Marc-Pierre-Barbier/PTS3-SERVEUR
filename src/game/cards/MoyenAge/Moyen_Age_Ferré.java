@@ -1,8 +1,8 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
+import game.cards.SpecialCard.HasteCard;
 
-public class Moyen_Age_Ferré extends Card{
+public class Moyen_Age_Ferré extends HasteCard{
     
     /**
      * retourne un entier coresspondant a l'attaque de la carte

@@ -10,6 +10,7 @@ import game.PlayerTesteur;
 
 public class Serveur {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		final String host = "localhost";
 		final int port = 10430;

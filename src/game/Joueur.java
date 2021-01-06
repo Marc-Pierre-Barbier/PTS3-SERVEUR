@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import game.cards.Card;
 import game.cards.CardRegistery;
+import game.cards.SpecialCard.ICanDoge;
+import game.cards.SpecialCard.IToxic;
 import game.deck.Deck;
 import game.deck.DeckRegistery;
 
@@ -329,7 +331,7 @@ public class Joueur {
 							attackingCard.hasAttacked();
 						} else {
 							if (!attackingCard.hasAlreadyAttacked()) {
-								handleAttackAgainstCard(attackingCard, carteCible, adversaire);
+								handleAttackAgainstCard(carteAttaquante, carteCible, adversaire);
 								attackingCard.hasAttacked();
 							}
 						}
@@ -362,8 +364,10 @@ public class Joueur {
 		
 	}
 
-	private void handleAttackAgainstCard(Card attackingCard, String carteCible, Joueur adversaire) throws IOException {
+	private void handleAttackAgainstCard(String carteAttaquante, String carteCible, Joueur adversaire) throws IOException {
 		Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
+		Card attackingCard = board.getCardInZone(Integer.parseInt(carteAttaquante));
+
 
 		if (attackedCard == null) {
 			throw new RuntimeException(
@@ -371,7 +375,7 @@ public class Joueur {
 		}
 
 		boolean isDestroyed = attackedCard.takeDamage(attackingCard.getAttack());
-		if (isDestroyed) {
+		if (isDestroyed || attackingCard instanceof IToxic) {
 			// on suprime la carte du terrain
 			board.setCard(Integer.parseInt(carteCible), null);
 
@@ -394,6 +398,39 @@ public class Joueur {
 			this.getComs().send(Command.SET_ADV_CARD_HP);
 			this.getComs().send(carteCible);
 			this.getComs().send(attackedCard.getHealth());
+			
+			
+			//cette partie est le fightback C.A.D quand tu attaque une carte si elle survit elle te frape a son tour
+			if(attackedCard.getAttack() > 0 && !(attackingCard instanceof ICanDoge))
+			{
+				isDestroyed = attackingCard.takeDamage(attackedCard.getAttack());
+				if(isDestroyed)
+				{
+					// on suprime la carte du terrain
+					adversaire.board.setCard(Integer.parseInt(carteAttaquante), null);
+
+					// demande a l'adversaire de retirer la carte de son terrain
+					adversaire.getComs().send(Command.DESTROY_ADV_CARD);
+					adversaire.getComs().send(carteAttaquante);
+
+					// retire la carte au terrain adverse
+					this.getComs().send(Command.DESTROY_CARD);
+					this.getComs().send(carteAttaquante);
+
+					// appelle les effet de quand la carte est détruite
+					// NOTE : non implémenter dans les cartes individuelles par manque de temps
+					attackedCard.onCardDestroyed();
+				}else {
+					adversaire.getComs().send(Command.SET_CARD_HP);
+					adversaire.getComs().send(carteAttaquante);
+					adversaire.getComs().send(attackingCard.getHealth());
+					
+					this.getComs().send(Command.SET_ADV_CARD_HP);
+					this.getComs().send(carteAttaquante);
+					this.getComs().send(attackingCard.getHealth());
+				}
+				
+			}
 		}
 
 	}
