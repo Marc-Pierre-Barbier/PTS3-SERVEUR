@@ -467,6 +467,25 @@ public class Joueur {
 		this.getComs().send(zone+"");
 		this.getComs().send(cardToUpDate.getHealth());
 	}
+	
+	/**
+	 * met a jorus les hp d'une carte tout ce passe du poin de vue du joueur
+	 * @param cardToUpDate
+	 * @param adversaire
+	 * @throws IOException
+	 */
+	private void updateCardAtk(Card cardToUpDate,Joueur adversaire) throws IOException
+	{
+		int zone  = board.getZoneOf(cardToUpDate);
+		if(zone == -1)return;
+		adversaire.getComs().send(Command.SET_ADV_CARD_ATK);
+		adversaire.getComs().send(zone+"");
+		adversaire.getComs().send(cardToUpDate.getAttack());
+		
+		this.getComs().send(Command.SET_CARD_ATK);
+		this.getComs().send(zone+"");
+		this.getComs().send(cardToUpDate.getAttack());
+	}
 
 	private Board getBoard() {
 		return board;
@@ -485,7 +504,7 @@ public class Joueur {
 		
 	}
 
-	public void onTurnStart() {
+	public void onTurnStart(Joueur adversaire) throws IOException {
 		Iterator<Card> it = board.getIterator();
 		while(it.hasNext())
 		{
@@ -493,6 +512,8 @@ public class Joueur {
 			if(c != null)
 			{
 				c.onTurnStart();
+				updateCardHp(c, adversaire);
+				updateCardAtk(c, adversaire);
 			}
 		}
 		
