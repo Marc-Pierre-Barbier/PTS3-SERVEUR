@@ -2,7 +2,7 @@ package game.cards.MoyenAge;
 
 import game.cards.Card;
 
-public class Moyen_Age_Heresie_Cathares extends Card{
+public class Moyen_Age_Heresie_Cathares extends Card implements IShortRange{
     
 
     /**
@@ -12,7 +12,7 @@ public class Moyen_Age_Heresie_Cathares extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 6;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Moyen_Age_Heresie_Cathares extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 6;
     }
 
     /**
@@ -32,6 +32,6 @@ public class Moyen_Age_Heresie_Cathares extends Card{
      */
     @Override
     public int getCost() {
-        return 8;
+        return 7;
     }
 }

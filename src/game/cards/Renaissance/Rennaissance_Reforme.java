@@ -2,7 +2,7 @@ package game.cards.Renaissance;
 
 import game.cards.Card;
 
-public class Rennaissance_Reforme extends Card {
+public class Rennaissance_Reforme extends Card implements ILifeSteal,IInvisible{
 
    
     /**
@@ -12,7 +12,7 @@ public class Rennaissance_Reforme extends Card {
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 2;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Rennaissance_Reforme extends Card {
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 3;
     }
 
    

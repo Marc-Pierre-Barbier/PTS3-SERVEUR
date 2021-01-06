@@ -2,7 +2,7 @@ package game.cards.MoyenAge;
 
 import game.cards.Card;
 
-public class Moyen_Age_Guerre_100 extends Card{
+public class Moyen_Age_Guerre_100 extends Card implements IAntiPlayer{
 
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +11,7 @@ public class Moyen_Age_Guerre_100 extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 2;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Moyen_Age_Guerre_100 extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 2;
     }
 
 

@@ -1,8 +1,9 @@
 package game.cards.Renaissance;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IToxic;
 
-public class Rennaissance_Decouverte_Amerique extends Card {
+public class Rennaissance_Decouverte_Amerique extends Card implements IToxic{
    
 
     /**
@@ -12,7 +13,7 @@ public class Rennaissance_Decouverte_Amerique extends Card {
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 1;
     }
 
     /**
@@ -22,7 +23,7 @@ public class Rennaissance_Decouverte_Amerique extends Card {
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 1;
     }
 
    
@@ -34,7 +35,7 @@ public class Rennaissance_Decouverte_Amerique extends Card {
      */
     @Override
     public int getCost() {
-        return 2;
+        return 6;
     }
 
    

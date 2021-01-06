@@ -2,7 +2,7 @@ package game.cards.Renaissance;
 
 import game.cards.Card;
 
-public class Rennaissance_Fin_Guerre_Cent_Ans extends Card {
+public class Rennaissance_Fin_Guerre_Cent_Ans extends Card implements ICanDoge{
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +11,7 @@ public class Rennaissance_Fin_Guerre_Cent_Ans extends Card {
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 5;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Rennaissance_Fin_Guerre_Cent_Ans extends Card {
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 3;
     }
 
    
@@ -33,7 +33,7 @@ public class Rennaissance_Fin_Guerre_Cent_Ans extends Card {
      */
     @Override
     public int getCost() {
-        return 3;
+        return 4;
     }
 
     

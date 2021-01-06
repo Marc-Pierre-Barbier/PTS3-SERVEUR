@@ -2,7 +2,7 @@ package game.cards.Renaissance;
 
 import game.cards.Card;
 
-public class Rennaissance_Presse_Imprimer extends Card{
+public class Rennaissance_Presse_Imprimer extends LonerCard{
 
    
 
@@ -13,7 +13,7 @@ public class Rennaissance_Presse_Imprimer extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 4;
     }
 
     /**
@@ -23,7 +23,7 @@ public class Rennaissance_Presse_Imprimer extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 6;
     }
 
     

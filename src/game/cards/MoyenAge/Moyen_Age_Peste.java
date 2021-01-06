@@ -2,7 +2,7 @@ package game.cards.MoyenAge;
 
 import game.cards.Card;
 
-public class Moyen_Age_Peste extends Card{
+public class Moyen_Age_Peste extends SelfHarmCard  {
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +11,7 @@ public class Moyen_Age_Peste extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 3;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Moyen_Age_Peste extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 5;
     }
 
 
@@ -32,7 +32,7 @@ public class Moyen_Age_Peste extends Card{
      */
     @Override
     public int getCost() {
-        return 4;
+        return 5;
     }
 
 

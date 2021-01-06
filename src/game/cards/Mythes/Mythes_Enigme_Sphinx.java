@@ -2,7 +2,7 @@ package game.cards.Mythes;
 
 import game.cards.Card;
 
-public class Mythes_Enigme_Sphinx extends Card{
+public class Mythes_Enigme_Sphinx extends Card implements IInvisible{
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +11,7 @@ public class Mythes_Enigme_Sphinx extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 2;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Mythes_Enigme_Sphinx extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 5;
     }
 
    

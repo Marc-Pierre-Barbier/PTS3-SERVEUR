@@ -2,7 +2,7 @@ package game.cards.Renaissance;
 
 import game.cards.Card;
 
-public class Rennaissance_Chute_Constantinople extends Card {
+public class Rennaissance_Chute_Constantinople extends Card implements IPlayerFocused {
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +11,7 @@ public class Rennaissance_Chute_Constantinople extends Card {
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 4;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Rennaissance_Chute_Constantinople extends Card {
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 6;
     }
 
    

@@ -2,7 +2,7 @@ package game.cards.MoyenAge;
 
 import game.cards.Card;
 
-public class Moyen_Age_Traite_Verdun extends Card{
+public class Moyen_Age_Traite_Verdun extends SelfHarmCard{
     /**
      * retourne un entier coresspondant a l'attaque de la carte
      *
@@ -10,7 +10,7 @@ public class Moyen_Age_Traite_Verdun extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 1;
     }
 
     /**
@@ -20,7 +20,7 @@ public class Moyen_Age_Traite_Verdun extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 4;
     }
 
     

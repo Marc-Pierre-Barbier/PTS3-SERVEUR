@@ -2,7 +2,7 @@ package game.cards.MoyenAge;
 
 import game.cards.Card;
 
-public class Moyen_Age_Croisade extends Card{
+public class Moyen_Age_Croisade extends SteroidsCard implements ILifeSteal{
 
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +11,7 @@ public class Moyen_Age_Croisade extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 1;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Moyen_Age_Croisade extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 3;
     }
 
 
@@ -32,6 +32,6 @@ public class Moyen_Age_Croisade extends Card{
      */
     @Override
     public int getCost() {
-        return 3;
+        return 5;
     }
 }

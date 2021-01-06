@@ -2,7 +2,7 @@ package game.cards.Mythes;
 
 import game.cards.Card;
 
-public class Mythes_Guerre_Sept_Chefs extends Card{
+public class Mythes_Guerre_Sept_Chefs extends VigilanceCard{
   
 
     /**
@@ -12,7 +12,7 @@ public class Mythes_Guerre_Sept_Chefs extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 6;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Mythes_Guerre_Sept_Chefs extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 5;
     }
 
   

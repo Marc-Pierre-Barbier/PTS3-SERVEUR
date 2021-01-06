@@ -12,7 +12,7 @@ public class Moyen_Age_Malediction_Templier extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 1;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Moyen_Age_Malediction_Templier extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 1;
     }
 
    

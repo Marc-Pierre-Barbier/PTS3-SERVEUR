@@ -1,8 +1,9 @@
 package game.cards.Mythes;
 
 import game.cards.Card;
+import game.cards.SpecialCard.ICanDoge;
 
-public class Mythes_12_Travaux extends Card{
+public class Mythes_12_Travaux extends Card implements ICanDoge{
     
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -11,7 +12,7 @@ public class Mythes_12_Travaux extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 3;
     }
 
     /**
@@ -21,7 +22,7 @@ public class Mythes_12_Travaux extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 1;
     }
 
    

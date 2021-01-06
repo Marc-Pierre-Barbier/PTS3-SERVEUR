@@ -2,7 +2,7 @@ package game.cards.Mythes;
 
 import game.cards.Card;
 
-public class Mythes_Zeus_VS_Typhon extends Card{
+public class Mythes_Zeus_VS_Typhon extends Card implements ILifeSteal{
    
 
     /**
@@ -12,7 +12,7 @@ public class Mythes_Zeus_VS_Typhon extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 6;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Mythes_Zeus_VS_Typhon extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 8;
     }
 
 
@@ -34,7 +34,7 @@ public class Mythes_Zeus_VS_Typhon extends Card{
      */
     @Override
     public int getCost() {
-        return 6;
+        return 8;
     }
 
    
