@@ -374,6 +374,14 @@ public class Joueur {
 			// appelle les effet de quand la carte est détruite
 			// NOTE : non implémenter dans les cartes individuelles par manque de temps
 			attackedCard.onCardDestroyed();
+		}else {
+			adversaire.getComs().send(Command.SET_CARD_HP);
+			adversaire.getComs().send(carteCible);
+			adversaire.getComs().send(attackedCard.getHealth());
+			
+			this.getComs().send(Command.SET_ADV_CARD_HP);
+			this.getComs().send(carteCible);
+			this.getComs().send(attackedCard.getHealth());
 		}
 
 	}

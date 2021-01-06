@@ -22,7 +22,7 @@ public class Match extends Thread {
 		joueur1.requestDataEarlyGameData();
 		joueur2.requestDataEarlyGameData();
 		Thread connect = new Thread();
-		connect.run();
+		connect.start();
 		System.out.println("ready");
 		start();
 	}
