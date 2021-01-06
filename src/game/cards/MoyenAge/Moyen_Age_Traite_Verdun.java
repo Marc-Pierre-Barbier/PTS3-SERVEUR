@@ -1,6 +1,6 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
+import game.cards.SpecialCard.SelfHarmCard;
 
 public class Moyen_Age_Traite_Verdun extends SelfHarmCard{
     /**

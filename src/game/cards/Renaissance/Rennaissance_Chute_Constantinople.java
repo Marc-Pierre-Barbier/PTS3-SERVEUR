@@ -1,6 +1,7 @@
 package game.cards.Renaissance;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IPlayerFocused;
 
 public class Rennaissance_Chute_Constantinople extends Card implements IPlayerFocused {
    

@@ -1,6 +1,7 @@
 package game.cards.Renaissance;
 
 import game.cards.Card;
+import game.cards.SpecialCard.ICanDoge;
 
 public class Rennaissance_Fin_Guerre_Cent_Ans extends Card implements ICanDoge{
    

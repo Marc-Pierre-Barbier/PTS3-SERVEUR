@@ -1,6 +1,7 @@
 package game.cards.Mythes;
 
 import game.cards.Card;
+import game.cards.SpecialCard.ILifeSteal;
 
 public class Mythes_Zeus_VS_Typhon extends Card implements ILifeSteal{
    

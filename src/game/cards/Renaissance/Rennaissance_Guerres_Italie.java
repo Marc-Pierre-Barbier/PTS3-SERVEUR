@@ -1,8 +1,8 @@
 package game.cards.Renaissance;
 
-import game.cards.Card;
+import game.cards.SpecialCard.RegeneratingCard;
 
-public class Rennaissance_Guerres_Italie extends RegenerationCard {
+public class Rennaissance_Guerres_Italie extends RegeneratingCard {
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte

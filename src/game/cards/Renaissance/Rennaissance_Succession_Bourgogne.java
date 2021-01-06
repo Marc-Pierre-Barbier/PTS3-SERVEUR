@@ -1,6 +1,6 @@
 package game.cards.Renaissance;
 
-import game.cards.Card;
+import game.cards.SpecialCard.SelfHarmCard;
 
 public class Rennaissance_Succession_Bourgogne extends SelfHarmCard{
   

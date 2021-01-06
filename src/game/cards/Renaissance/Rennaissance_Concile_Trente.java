@@ -1,6 +1,6 @@
 package game.cards.Renaissance;
 
-import game.cards.Card;
+import game.cards.SpecialCard.VigilanceCard;
 
 public class Rennaissance_Concile_Trente extends VigilanceCard {
    

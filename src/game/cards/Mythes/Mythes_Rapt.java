@@ -1,6 +1,6 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.HasteCard;
 
 public class Mythes_Rapt extends HasteCard{
    

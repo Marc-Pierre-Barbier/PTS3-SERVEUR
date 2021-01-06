@@ -1,6 +1,6 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.SteroidsCard;
 
 public class Mythes_Icar extends SteroidsCard{
    

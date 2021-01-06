@@ -1,6 +1,7 @@
 package game.cards.MoyenAge;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IShortRange;
 
 public class Moyen_Age_Heresie_Cathares extends Card implements IShortRange{
     

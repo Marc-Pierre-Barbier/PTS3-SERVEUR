@@ -1,6 +1,7 @@
 package game.cards.Mythes;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IInvisible;
 
 public class Mythes_Enigme_Sphinx extends Card implements IInvisible{
    

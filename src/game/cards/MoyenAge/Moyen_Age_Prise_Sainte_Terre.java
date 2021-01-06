@@ -1,6 +1,6 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
+import game.cards.SpecialCard.LonerCard;
 
 public class Moyen_Age_Prise_Sainte_Terre extends LonerCard {
    

@@ -1,6 +1,8 @@
 package game.cards.Renaissance;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IInvisible;
+import game.cards.SpecialCard.ILifeSteal;
 
 public class Rennaissance_Reforme extends Card implements ILifeSteal,IInvisible{
 

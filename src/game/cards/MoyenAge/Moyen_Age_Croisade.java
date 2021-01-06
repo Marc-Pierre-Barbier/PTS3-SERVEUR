@@ -1,6 +1,7 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
+import game.cards.SpecialCard.ILifeSteal;
+import game.cards.SpecialCard.SteroidsCard;
 
 public class Moyen_Age_Croisade extends SteroidsCard implements ILifeSteal{
 

@@ -1,6 +1,6 @@
 package game.cards.Renaissance;
 
-import game.cards.Card;
+import game.cards.SpecialCard.LonerCard;
 
 public class Rennaissance_Presse_Imprimer extends LonerCard{
 

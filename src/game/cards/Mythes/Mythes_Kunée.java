@@ -1,6 +1,6 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.RegeneratingCard;
 
 public class Mythes_Kunée extends RegeneratingCard{
    

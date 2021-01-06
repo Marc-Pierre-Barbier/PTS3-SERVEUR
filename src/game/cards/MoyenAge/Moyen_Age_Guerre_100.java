@@ -1,6 +1,7 @@
 package game.cards.MoyenAge;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IAntiPlayer;
 
 public class Moyen_Age_Guerre_100 extends Card implements IAntiPlayer{
 
