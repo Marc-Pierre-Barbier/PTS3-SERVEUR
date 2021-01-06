@@ -1,5 +1,7 @@
 package game.cards;
 
+import game.Board;
+
 public abstract class Card{
 	
 	private int attack;
@@ -41,7 +43,7 @@ public abstract class Card{
     /**
      * evenement déclanché au placement de la carte
      */
-    public void onCardPlaced(){};
+    public void onCardPlaced(Board board){};
     /**
      * évenement déclenché a la mort de la carte
      */
@@ -88,6 +90,13 @@ public abstract class Card{
 	
 	public void resetAttack() {
 		hasAttacked=false;
+	}
+	public void heal(int amount) {
+		health += amount;
+	}
+	public void makeStronger(int amount)
+	{
+		attack += amount;
 	}
 }
 

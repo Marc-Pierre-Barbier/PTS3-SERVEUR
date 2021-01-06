@@ -117,7 +117,7 @@ public class Match extends Thread {
 		//et on dit au joueur oposé que ce n'est pas le tien
 		enemy.debutTourEnemie();
 
-
+		joueur.onTurnStart();
 		joueur.mainPhase1(enemy); //Joue autant de carte qu'il veut/peut
 		joueur.battlePhase(enemy);//lance des attaques à son adversaire qui peut répliquer
 		//cette phases ne serira surment pas car nous manquon de temps pour implrementer les fonctionnalité specifique de certaine cartes

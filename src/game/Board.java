@@ -35,4 +35,32 @@ public class Board {
           return Arrays.stream(board).iterator();
     }
 
+	public int getZoneOf(Card cardToUpDate) {
+		int index = 0;
+		for(Card c : board)
+		{
+			//si c'est la meme instance
+			if(c == cardToUpDate)
+			{
+				return index;
+			}
+			index++;
+		}
+		return -1;
+	}
+	
+	public int getBoardSize()
+	{
+		int nbCardOnBoard = 0;
+		for(Card c : board)
+		{
+			//si c'est la meme instance
+			if(c != null)
+			{
+				nbCardOnBoard++;
+			}
+		}
+		return nbCardOnBoard;
+	}
+
 }
