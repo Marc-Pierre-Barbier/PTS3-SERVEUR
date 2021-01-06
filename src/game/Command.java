@@ -30,6 +30,8 @@ public final class Command {
 	public static final String SET_HP = "sethp";
 	public static final String SET_CARD_HP = "setcardhp";
 	public static final String SET_ADV_CARD_HP = "setadvcardhp";
+	public static final String SET_CARD_ATK = "setcardatk";
+	public static final String SET_ADV_CARD_ATK = "setadvcardatk";
 
 
 }
