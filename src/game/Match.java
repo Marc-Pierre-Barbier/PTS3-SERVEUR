@@ -112,12 +112,15 @@ public class Match extends Thread {
 		}
 		//on prepare la mana
 		joueur.prepMana();
+		
+		//avant que je joueur agit on déclanche les evenement de debuts de tours
+		joueur.onTurnStart(enemy);
+
 		//on dit au joueur que c'est a lui de jouer
 		joueur.yourturn();
 		//et on dit au joueur oposé que ce n'est pas le tien
 		enemy.debutTourEnemie();
 
-		joueur.onTurnStart(enemy);
 		joueur.mainPhase1(enemy); //Joue autant de carte qu'il veut/peut
 		joueur.battlePhase(enemy);//lance des attaques à son adversaire qui peut répliquer
 		//cette phases ne serira surment pas car nous manquon de temps pour implrementer les fonctionnalité specifique de certaine cartes

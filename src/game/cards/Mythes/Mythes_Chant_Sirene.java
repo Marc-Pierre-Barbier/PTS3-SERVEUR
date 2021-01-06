@@ -1,8 +1,9 @@
 package game.cards.Mythes;
 
 import game.cards.Card;
+import game.cards.SpecialCard.ILifeSteal;
 
-public class Mythes_Chant_Sirene extends Card{
+public class Mythes_Chant_Sirene extends Card implements ILifeSteal{
    
 
     /**
@@ -12,7 +13,7 @@ public class Mythes_Chant_Sirene extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 2;
     }
 
     /**
@@ -22,7 +23,7 @@ public class Mythes_Chant_Sirene extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 0;
+        return 1;
     }
 
     /**

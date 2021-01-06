@@ -63,4 +63,11 @@ public class Hand {
 	public boolean isFull() {
 		return hand.size() == MAX_CARD_IN_HAND;
 	}
+
+	public void print() {
+		for(Card c : hand)
+		{
+			System.out.println(c.getClass().getSimpleName());
+		}
+	}
 }

@@ -39,7 +39,8 @@ public class ComsJoueur {
 	public String recieve()
 	{
 		try {
-			return (String) serverIn.readObject();
+			String message = (String) serverIn.readObject();
+			return message;
 		} catch (ClassNotFoundException e) {
 			System.err.println("ERREUR une classe non trouvé a éte transimise , essayer de n'evoyer que des String");
 			return "";

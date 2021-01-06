@@ -176,7 +176,7 @@ public class Joueur {
 			int cardId = Integer.parseInt(info);
 
 			Class<? extends Card> cardClass = CardRegistery.get(cardId);
-			System.out.println(cardClass.getName());
+			System.out.println("searching :"+cardClass.getSimpleName());
 
 			int zone = Integer.parseInt(coms.recieve());
 
@@ -185,7 +185,16 @@ public class Joueur {
 			// si la carte n'est pas trouve ou si elle coute trop cher
 			if (handCard == null || mana < handCard.getCost()) {
 				// on refuse le placement
-				System.out.println("no mana or no card");
+				System.out.println("no mana or no card printing hand");
+
+				hand.print();
+				
+				System.out.println("hand status :");
+				System.out.println(handCard);
+				
+				System.out.println("mana :" + mana);
+				System.out.println("cost :" + handCard.getCost());
+				
 				coms.send(Command.NOK);
 			} else {
 				if (board.isZoneAvaliable(zone)) {
@@ -325,20 +334,23 @@ public class Joueur {
 						throw new RuntimeException("non number zone recived in attack phase");
 					
 					Card attackingCard = board.getCardInZone(Integer.parseInt(carteAttaquante));
-					Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
 
 
 					if (attackingCard == null) {
 						throw new RuntimeException("invalid attack");
 					} else {
-						if (carteCible.equals("100") && !attackingCard.hasAlreadyAttacked()) {
-							boolean isadvDead = handleAttackAgainstPlayer(attackingCard, adversaire);
-							if(isadvDead)
+						if (carteCible.contains("100")) {
+							if(!attackingCard.hasAlreadyAttacked())
 							{
-								phaseActive = false;
+								boolean isadvDead = handleAttackAgainstPlayer(attackingCard, adversaire);
+								if(isadvDead)
+								{
+									phaseActive = false;
+								}
+								attackingCard.hasAttacked();
 							}
-							attackingCard.hasAttacked();
 						} else {
+							Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
 							if (!attackingCard.hasAlreadyAttacked() && !(attackedCard instanceof IInvisible) &&  !(attackingCard instanceof IPlayerFocused)) {
 								handleAttackAgainstCard(carteAttaquante, carteCible, adversaire);
 								attackingCard.hasAttacked();
@@ -404,7 +416,7 @@ public class Joueur {
 		
 		if (isDestroyed || attackingCard instanceof IToxic) {
 			// on suprime la carte du terrain
-			board.setCard(Integer.parseInt(carteCible), null);
+			adversaire.board.setCard(Integer.parseInt(carteCible), null);
 
 			// demande a l'adversaire de retirer la carte de son terrain
 			adversaire.getComs().send(Command.DESTROY_CARD);
@@ -427,7 +439,7 @@ public class Joueur {
 				if(isDestroyed)
 				{
 					// on suprime la carte du terrain
-					adversaire.board.setCard(Integer.parseInt(carteAttaquante), null);
+					board.setCard(Integer.parseInt(carteAttaquante), null);
 
 					// demande a l'adversaire de retirer la carte de son terrain
 					adversaire.getComs().send(Command.DESTROY_ADV_CARD);
@@ -469,7 +481,7 @@ public class Joueur {
 	}
 	
 	/**
-	 * met a jorus les hp d'une carte tout ce passe du poin de vue du joueur
+	 * met a jorus les dmg d'une carte tout ce passe du poin de vue du joueur
 	 * @param cardToUpDate
 	 * @param adversaire
 	 * @throws IOException
