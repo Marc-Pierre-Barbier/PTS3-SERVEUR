@@ -28,4 +28,8 @@ public class Board {
 		return board[zone];
 	}
 
+	public int getNumberCardInZone() {
+		return board.length;
+	}
+
 }

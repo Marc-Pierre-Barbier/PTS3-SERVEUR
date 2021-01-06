@@ -219,7 +219,12 @@ public class Joueur {
 	 * cette methode a pour but d'executé les evenement de fin de trous des cartes
 	 */
 	public void endPhase() {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < board.getNumberCardInZone(); i++) {
+			Card c = board.getCardInZone(i);
+			if (c != null) {
+				c.resetAttack();
+			}
+		}
 	}
 
 	public ComsJoueur getComs() {
@@ -312,14 +317,17 @@ public class Joueur {
 					if (attackingCard == null) {
 						throw new RuntimeException("invalid attack");
 					} else {
-						if (carteCible.equals("100")) {
+						if (carteCible.equals("100") && attackingCard.alreadyAttack()) {
 							boolean isadvDead = handleAttackAgainstPlayer(attackingCard, adversaire);
 							if(isadvDead)
 							{
 								phaseActive = false;
 							}
 						} else {
-							handleAttackAgainstCard(attackingCard, carteCible, adversaire);
+							if (attackingCard.alreadyAttack()) {
+								handleAttackAgainstCard(attackingCard, carteCible, adversaire);
+								attackingCard.haveAttack();
+							}
 						}
 					}
 					break;
