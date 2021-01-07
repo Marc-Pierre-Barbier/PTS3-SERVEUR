@@ -415,20 +415,7 @@ public class Joueur {
 		}
 		
 		if (isDestroyed || attackingCard instanceof IToxic) {
-			// on suprime la carte du terrain
-			adversaire.board.setCard(Integer.parseInt(carteCible), null);
-
-			// demande a l'adversaire de retirer la carte de son terrain
-			adversaire.getComs().send(Command.DESTROY_CARD);
-			adversaire.getComs().send(carteCible);
-
-			// retire la carte au terrain adverse
-			this.getComs().send(Command.DESTROY_ADV_CARD);
-			this.getComs().send(carteCible);
-
-			// appelle les effet de quand la carte est détruite
-			// NOTE : non implémenter dans les cartes individuelles par manque de temps
-			attackedCard.onCardDestroyed();
+			adversaire.destroyCard(carteCible,this);
 		}else {
 			adversaire.updateCardHp(attackedCard, this);
 			
@@ -460,6 +447,26 @@ public class Joueur {
 		}
 
 	}
+
+	
+	private void destroyCard(String carteCible,Joueur adversaire) throws IOException
+	{
+		board.setCard(Integer.parseInt(carteCible), null);
+
+		// demande a l'adversaire de retirer la carte de son terrain
+		getComs().send(Command.DESTROY_CARD);
+		getComs().send(carteCible);
+
+		// retire la carte au terrain adverse
+		adversaire.getComs().send(Command.DESTROY_ADV_CARD);
+		adversaire.getComs().send(carteCible);
+		
+		// appelle les effet de quand la carte est détruite
+		// NOTE : non implémenter dans les cartes individuelles par manque de temps
+		Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
+		attackedCard.onCardDestroyed();
+	}
+	
 	
 	/**
 	 * met a jorus les hp d'une carte tout ce passe du poin de vue du joueur
@@ -517,6 +524,7 @@ public class Joueur {
 	}
 
 	public void onTurnStart(Joueur adversaire) throws IOException {
+		int index = 0;
 		Iterator<Card> it = board.getIterator();
 		while(it.hasNext())
 		{
@@ -524,9 +532,16 @@ public class Joueur {
 			if(c != null)
 			{
 				c.onTurnStart();
-				updateCardHp(c, adversaire);
-				updateCardAtk(c, adversaire);
+				if(!(c.getHealth() == 0))
+				{
+					updateCardHp(c, adversaire);
+					updateCardAtk(c, adversaire);
+				}else {
+					destroyCard(index+"", adversaire);
+				}
+				
 			}
+			index++;
 		}
 		
 	}

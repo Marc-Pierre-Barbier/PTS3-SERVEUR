@@ -1,8 +1,8 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
+import game.cards.SpecialCard.SelfHarmCard;
 
-public class Moyen_Age_Malediction_Templier extends Card{
+public class Moyen_Age_Malediction_Templier extends SelfHarmCard{
    
 
     /**
@@ -12,7 +12,7 @@ public class Moyen_Age_Malediction_Templier extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 1;
+        return 2;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Moyen_Age_Malediction_Templier extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 1;
+        return 5;
     }
 
    
