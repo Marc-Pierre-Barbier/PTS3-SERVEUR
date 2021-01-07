@@ -451,6 +451,8 @@ public class Joueur {
 	
 	private void destroyCard(String carteCible,Joueur adversaire) throws IOException
 	{
+		Card attackedCard = getBoard().getCardInZone(Integer.parseInt(carteCible));
+
 		board.setCard(Integer.parseInt(carteCible), null);
 
 		// demande a l'adversaire de retirer la carte de son terrain
@@ -463,7 +465,6 @@ public class Joueur {
 		
 		// appelle les effet de quand la carte est détruite
 		// NOTE : non implémenter dans les cartes individuelles par manque de temps
-		Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
 		attackedCard.onCardDestroyed();
 	}
 	

@@ -3,7 +3,7 @@ package game.cards.SpecialCard;
 import game.cards.Card;
 
 public abstract class VigilanceCard extends Card{
-	int nbAttack = 0;
+	int nbAttack = 2;
 	
 	public boolean hasAlreadyAttacked() {
 		return nbAttack==2;
