@@ -97,6 +97,7 @@ public abstract class Card{
 	public void makeStronger(int amount)
 	{
 		attack += amount;
+		if(attack < 0)attack=0;
 	}
 }
 
