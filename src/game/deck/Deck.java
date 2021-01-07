@@ -43,4 +43,9 @@ public abstract class Deck {
         }
         return cards;
     }
+    
+    public boolean isEmpty()
+    {
+    	return getCards().isEmpty();
+    }
 }

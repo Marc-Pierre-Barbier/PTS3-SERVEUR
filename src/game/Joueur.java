@@ -34,7 +34,7 @@ public class Joueur {
 
 	/**
 	 * cette fonction permet d'obtenir le deck du joueur et de préparer la main
-	 * 
+	 *  /!\\ l'appele de cette fonction doit être protegé par la verification de la tille du deck
 	 * @throws IOException
 	 */
 	public void requestDataEarlyGameData() throws IOException {
@@ -54,7 +54,7 @@ public class Joueur {
 
 	/**
 	 * cette fonction permet de pioche une quantité donné
-	 * 
+	 * /!\\ l'appele de cette fonction doit être protegé par la verification de la tille du deck
 	 * @param amount la quantié
 	 * @throws IOException
 	 */
@@ -388,7 +388,7 @@ public class Joueur {
 		return true;
 	}
 
-	private void updateHp(Joueur adversaire) throws IOException {
+	public void updateHp(Joueur adversaire) throws IOException {
 		coms.send(Command.SET_HP);
 		coms.send(pV);
 		adversaire.coms.send(Command.SET_ENEMY_HP);
@@ -508,7 +508,7 @@ public class Joueur {
 	 * @param amount
 	 * @return true si les pv du joueur on attein zero
 	 */
-	private boolean takeDamage(int amount)
+	public boolean takeDamage(int amount)
 	{
 		pV -= amount;
 		pV = pV > 0 ? pV : 0;
@@ -529,5 +529,9 @@ public class Joueur {
 			}
 		}
 		
+	}
+
+	public Deck getDeck() {
+		return deck;
 	}
 }

@@ -105,11 +105,26 @@ public class Match extends Thread {
 		
 
 		//si la main du joeur n'est pas pleine
-		if(!joueur.isHandFull())joueur.draw(1); //pioche 1 carte
-		else{
-			//sinon on pert une carte
-			joueur.meule(1);
+		if(!joueur.getDeck().isEmpty())
+		{
+			if(!joueur.isHandFull())joueur.draw(1); //pioche 1 carte
+			else{
+				//sinon on pert une carte
+				joueur.meule(1);
+			}
+		}else {
+			joueur.sendMessage("Ton deck est vide tu ne recevera plus de carte");
+			//on prends des degats a chaque tours sans carte
+			if(joueur.takeDamage(1))
+			{
+				//on ne démare pas le tours vu que le joueur est mort
+				return;
+			}else {
+				joueur.updateHp(enemy);
+			}
 		}
+		
+		
 		//on prepare la mana
 		joueur.prepMana();
 		
