@@ -1,8 +1,9 @@
 package game.cards.Mythes;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IShortRange;
 
-public class Mythes_Psyché extends Card{
+public class Mythes_Psyché extends Card implements IShortRange{
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte

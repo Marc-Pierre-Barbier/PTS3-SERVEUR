@@ -1,9 +1,9 @@
 package game.cards.Renaissance;
 
-import game.cards.Card;
+import game.cards.SpecialCard.HasteCard;
 import game.cards.SpecialCard.IToxic;
 
-public class Rennaissance_Decouverte_Amerique extends Card implements IToxic{
+public class Rennaissance_Decouverte_Amerique extends HasteCard implements IToxic{
    
 
     /**

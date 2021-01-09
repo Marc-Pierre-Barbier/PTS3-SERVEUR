@@ -33,7 +33,7 @@ public class Rennaissance_Casimir extends Card{
      */
     @Override
     public int getCost() {
-        return 7;
+        return 5;
     }
 
     

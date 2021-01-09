@@ -1,8 +1,8 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.DoubleBufCard;
 
-public class Mythes_Dédale extends Card{
+public class Mythes_Dédale extends DoubleBufCard{
   
     /**
      * retourne un entier coresspondant a l'attaque de la carte
@@ -33,7 +33,7 @@ public class Mythes_Dédale extends Card{
      */
     @Override
     public int getCost() {
-        return 1;
+        return 3;
     }
 
 }

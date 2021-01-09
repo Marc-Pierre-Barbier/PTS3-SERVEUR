@@ -1,8 +1,8 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.LonerCard;
 
-public class Mythes_Erinyes extends Card{
+public class Mythes_Erinyes extends LonerCard{
   
 
     /**

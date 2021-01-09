@@ -1,8 +1,9 @@
 package game.cards.MoyenAge;
 
 import game.cards.Card;
+import game.cards.SpecialCard.IInvisible;
 
-public class Moyen_Age_PhilippeIV extends Card{
+public class Moyen_Age_PhilippeIV extends Card implements IInvisible{
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte

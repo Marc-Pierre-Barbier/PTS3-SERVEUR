@@ -1,8 +1,8 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.DoubleBufCard;
 
-public class Mythes_Minos extends Card{
+public class Mythes_Minos extends DoubleBufCard{
    
     /**
      * retourne un entier coresspondant a l'attaque de la carte

@@ -27,7 +27,7 @@ public class Renaissance_Mehmet extends Card{
      */
     @Override
     public int getCost() {
-        return 1;
+        return 2;
     }
 
     

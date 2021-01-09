@@ -12,7 +12,7 @@ public class Mythes_Thanatos extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 2;
+        return 4;
     }
 
     /**

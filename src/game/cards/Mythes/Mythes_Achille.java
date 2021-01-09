@@ -1,8 +1,9 @@
 package game.cards.Mythes;
 
 import game.cards.Card;
+import game.cards.SpecialCard.StrongifyBufCard;
 
-public class Mythes_Achille extends Card{
+public class Mythes_Achille extends StrongifyBufCard{
     
 
     /**
@@ -12,7 +13,7 @@ public class Mythes_Achille extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 4;
+        return 5;
     }
 
     /**

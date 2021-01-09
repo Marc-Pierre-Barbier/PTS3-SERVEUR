@@ -12,7 +12,7 @@ public class Rennaissance_Isabelle extends Card {
      */
     @Override
     public int getDefaultAttack() {
-        return 1;
+        return 2;
     }
 
     /**

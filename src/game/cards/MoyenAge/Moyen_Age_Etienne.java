@@ -1,8 +1,9 @@
 package game.cards.MoyenAge;
 
 import game.cards.Card;
+import game.cards.SpecialCard.VigilanceCard;
 
-public class Moyen_Age_Etienne extends Card{
+public class Moyen_Age_Etienne extends VigilanceCard{
 
     /**
      * retourne un entier coresspondant a l'attaque de la carte

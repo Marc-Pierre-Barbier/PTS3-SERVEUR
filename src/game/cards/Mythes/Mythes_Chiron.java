@@ -33,7 +33,7 @@ public class Mythes_Chiron extends Card{
      */
     @Override
     public int getCost() {
-        return 3;
+        return 2;
     }
 
     

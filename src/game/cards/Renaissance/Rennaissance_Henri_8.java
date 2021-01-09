@@ -32,7 +32,7 @@ public class Rennaissance_Henri_8 extends Card{
      */
     @Override
     public int getCost() {
-        return 6;
+        return 5;
     }
 
    

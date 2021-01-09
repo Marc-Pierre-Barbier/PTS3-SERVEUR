@@ -17,7 +17,7 @@ public class Renaissance_Soliman extends Card {
 
     @Override
     public int getCost() {
-        return 9;
+        return 7;
     }
 
 

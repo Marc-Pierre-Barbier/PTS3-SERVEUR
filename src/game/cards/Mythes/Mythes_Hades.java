@@ -12,7 +12,7 @@ public class Mythes_Hades extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 7;
+        return 6;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Mythes_Hades extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 7;
+        return 6;
     }
 
   
@@ -33,7 +33,7 @@ public class Mythes_Hades extends Card{
      */
     @Override
     public int getCost() {
-        return 9;
+        return 6;
     }
 
 }

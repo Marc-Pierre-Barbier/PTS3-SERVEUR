@@ -1,8 +1,8 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.VigilanceCard;
 
-public class Mythes_Amazones extends Card{
+public class Mythes_Amazones extends VigilanceCard{
    /**
      * retourne un entier coresspondant a l'attaque de la carte
      *

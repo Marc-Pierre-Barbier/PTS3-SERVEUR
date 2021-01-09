@@ -1,8 +1,8 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
+import game.cards.SpecialCard.SelfHarmCard;
 
-public class Mythes_Oedipie extends Card{
+public class Mythes_Oedipie extends SelfHarmCard{
   
     /**
      * retourne un entier coresspondant a l'attaque de la carte

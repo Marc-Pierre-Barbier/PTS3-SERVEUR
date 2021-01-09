@@ -11,7 +11,7 @@ public class Moyen_Age_Pierre_Ermite extends Card{
      */
     @Override
     public int getDefaultAttack() {
-        return 0;
+        return 1;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Moyen_Age_Pierre_Ermite extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 3;
+        return 2;
     }
 
 

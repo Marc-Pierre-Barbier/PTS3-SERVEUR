@@ -1,8 +1,8 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
+import game.cards.SpecialCard.DoubleBufCard;
 
-public class Moyen_Age_Jean extends Card{
+public class Moyen_Age_Jean extends DoubleBufCard{
     
 
     /**
@@ -22,7 +22,7 @@ public class Moyen_Age_Jean extends Card{
      */
     @Override
     public int getDefaultHealth() {
-        return 3;
+        return 2;
     }
 
     
