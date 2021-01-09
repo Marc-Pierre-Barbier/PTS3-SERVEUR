@@ -207,6 +207,7 @@ public class Joueur {
 					mana -= handCard.getCost();
 					coms.send(mana);
 					handCard.onCardPlaced(board);
+					refreshAllCard(adversaire);
 				} else {
 					System.out.println("the zone is not avaliable");
 					coms.send(Command.NOK);
@@ -533,6 +534,28 @@ public class Joueur {
 			if(c != null)
 			{
 				c.onTurnStart();
+				if(!(c.getHealth() == 0))
+				{
+					updateCardHp(c, adversaire);
+					updateCardAtk(c, adversaire);
+				}else {
+					destroyCard(index+"", adversaire);
+				}
+				
+			}
+			index++;
+		}
+		
+	}
+	
+	public void refreshAllCard(Joueur adversaire) throws IOException {
+		int index = 0;
+		Iterator<Card> it = board.getIterator();
+		while(it.hasNext())
+		{
+			Card c = it.next();
+			if(c != null)
+			{
 				if(!(c.getHealth() == 0))
 				{
 					updateCardHp(c, adversaire);

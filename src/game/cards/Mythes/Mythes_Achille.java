@@ -1,6 +1,5 @@
 package game.cards.Mythes;
 
-import game.cards.Card;
 import game.cards.SpecialCard.StrongifyBufCard;
 
 public class Mythes_Achille extends StrongifyBufCard{

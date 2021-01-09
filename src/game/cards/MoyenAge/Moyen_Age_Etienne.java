@@ -1,6 +1,5 @@
 package game.cards.MoyenAge;
 
-import game.cards.Card;
 import game.cards.SpecialCard.VigilanceCard;
 
 public class Moyen_Age_Etienne extends VigilanceCard{
