@@ -13,7 +13,10 @@ public abstract class StrongifyBufCard extends BufCard{
 		while(it.hasNext())
 		{
 			Card card = it.next();
-			card.heal(1);
+			if(card != null)
+			{
+				card.heal(1);
+			}
 		}
 	}
 }

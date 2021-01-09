@@ -13,8 +13,12 @@ public abstract class DoubleBufCard extends BufCard{
 		while(it.hasNext())
 		{
 			Card card = it.next();
-			card.heal(1);
-			card.makeStronger(1);
+			if(card != null)
+			{
+				card.heal(1);
+				card.makeStronger(1);
+			}
+			
 		}
 	}
 }
