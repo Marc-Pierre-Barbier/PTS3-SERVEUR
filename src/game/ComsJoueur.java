@@ -9,6 +9,7 @@ public class ComsJoueur {
 	private ObjectOutputStream serverOut;
 	private ObjectInputStream serverIn;
 	private Socket socket;
+	private String name=null;
 	
 	public ComsJoueur(Socket connection) throws IOException
 	{
@@ -27,7 +28,10 @@ public class ComsJoueur {
 	public void send(String message) throws IOException
 	{
 		serverOut.writeObject(message);
-		System.out.println("Sending "+message);
+		if(name == null)
+			System.out.println("Sending "+message);
+		else
+			System.out.println("Sending "+message+" to "+name);
 	}
 
 
@@ -40,6 +44,10 @@ public class ComsJoueur {
 	{
 		try {
 			String message = (String) serverIn.readObject();
+			if(name == null)
+				System.out.println("Sending "+message);
+			else
+				System.out.println("Sending "+message+" to "+name);
 			return message;
 		} catch (ClassNotFoundException e) {
 			System.err.println("ERREUR une classe non trouvé a éte transimise , essayer de n'evoyer que des String");
@@ -75,5 +83,9 @@ public class ComsJoueur {
 	public void send(int message) throws IOException {
 		send(""+message);
 		
+	}
+
+	public void setName(String name) {
+		this.name=name;
 	}
 }

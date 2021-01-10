@@ -1,8 +1,8 @@
 package game.cards.MoyenAge;
 
-import game.cards.SpecialCard.HealthBufCard;
+import game.cards.SpecialCard.StrongifyBufCard;
 
-public class Moyen_Age_Louis extends HealthBufCard{
+public class Moyen_Age_Louis extends StrongifyBufCard{
     
 
     /**

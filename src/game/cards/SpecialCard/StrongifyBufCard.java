@@ -15,7 +15,7 @@ public abstract class StrongifyBufCard extends BufCard{
 			Card card = it.next();
 			if(card != null)
 			{
-				card.heal(1);
+				card.makeStronger(1);
 			}
 		}
 	}

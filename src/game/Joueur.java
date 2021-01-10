@@ -16,6 +16,8 @@ import game.deck.Deck;
 import game.deck.DeckRegistery;
 
 public class Joueur {
+	//utile pour les logs
+	private String name;
 	private ComsJoueur coms;
 	private Deck deck;
 	private Hand hand;
@@ -26,15 +28,18 @@ public class Joueur {
 	// la mana actuele du joueur
 	private int mana;
 
-	public Joueur(ComsJoueur connectionJoueur) {
+	public Joueur(ComsJoueur connectionJoueur,String name) {
+		this.name=name;
 		coms = connectionJoueur;
 		pV = 20;
 		this.board = new Board();
 	}
 
 	/**
-	 * cette fonction permet d'obtenir le deck du joueur et de préparer la main
-	 *  /!\\ l'appele de cette fonction doit être protegé par la verification de la tille du deck
+	 * cette fonction permet d'obtenir le deck du joueur et de préparer la main /!\\
+	 * l'appele de cette fonction doit être protegé par la verification de la tille
+	 * du deck
+	 * 
 	 * @throws IOException
 	 */
 	public void requestDataEarlyGameData() throws IOException {
@@ -43,6 +48,7 @@ public class Joueur {
 		deck = DeckRegistery.get(deckname);
 		deck.shuffle();
 		hand = new Hand(deck);
+		coms.setName(name);
 		coms.send(DeckSerializer.serializeDeck(deck));
 		draw(5);
 		coms.send(Command.SET_HP);
@@ -53,8 +59,9 @@ public class Joueur {
 	}
 
 	/**
-	 * cette fonction permet de pioche une quantité donné
-	 * /!\\ l'appele de cette fonction doit être protegé par la verification de la tille du deck
+	 * cette fonction permet de pioche une quantité donné /!\\ l'appele de cette
+	 * fonction doit être protegé par la verification de la tille du deck
+	 * 
 	 * @param amount la quantié
 	 * @throws IOException
 	 */
@@ -126,7 +133,7 @@ public class Joueur {
 			coms.getSocket().setSoTimeout(Integer.MAX_VALUE);
 			if (command != null && !command.equals("time out")) {
 				alive = 0;
-				System.out.println("GOT COMMAND :" + command);
+				System.out.println("\rGOT COMMAND :" + command);
 
 				switch (command) {
 
@@ -176,7 +183,7 @@ public class Joueur {
 			int cardId = Integer.parseInt(info);
 
 			Class<? extends Card> cardClass = CardRegistery.get(cardId);
-			System.out.println("searching :"+cardClass.getSimpleName());
+			System.out.println("searching :" + cardClass.getSimpleName());
 
 			int zone = Integer.parseInt(coms.recieve());
 
@@ -188,13 +195,13 @@ public class Joueur {
 				System.out.println("no mana or no card printing hand");
 
 				hand.print();
-				
+
 				System.out.println("hand status :");
 				System.out.println(handCard);
-				
+
 				System.out.println("mana :" + mana);
 				System.out.println("cost :" + handCard.getCost());
-				
+
 				coms.send(Command.NOK);
 			} else {
 				if (board.isZoneAvaliable(zone)) {
@@ -239,13 +246,12 @@ public class Joueur {
 	 */
 	public void endPhase() {
 		Iterator<Card> it = board.getIterator();
-        while(it.hasNext())
-        {
-        Card c = it.next();
-            if (c != null) {
-                c.resetAttack();
-            }
-        }
+		while (it.hasNext()) {
+			Card c = it.next();
+			if (c != null) {
+				c.resetAttack();
+			}
+		}
 	}
 
 	public ComsJoueur getComs() {
@@ -314,7 +320,7 @@ public class Joueur {
 			String command = coms.recieve();
 			coms.getSocket().setSoTimeout(Integer.MAX_VALUE);
 			if (command != null && !command.equals("time out")) {
-				System.out.println("GOT COMMAND :" + command);
+				System.out.println("\rGOT COMMAND :" + command);
 
 				switch (command) {
 
@@ -333,26 +339,24 @@ public class Joueur {
 					String carteCible = coms.recieve();
 					if (!isInt(carteAttaquante) || !isInt(carteCible))
 						throw new RuntimeException("non number zone recived in attack phase");
-					
-					Card attackingCard = board.getCardInZone(Integer.parseInt(carteAttaquante));
 
+					Card attackingCard = board.getCardInZone(Integer.parseInt(carteAttaquante));
 
 					if (attackingCard == null) {
 						throw new RuntimeException("invalid attack");
 					} else {
 						if (carteCible.contains("100")) {
-							if(!attackingCard.hasAlreadyAttacked())
-							{
+							if (!attackingCard.hasAlreadyAttacked()) {
 								boolean isadvDead = handleAttackAgainstPlayer(attackingCard, adversaire);
-								if(isadvDead)
-								{
+								if (isadvDead) {
 									phaseActive = false;
 								}
 								attackingCard.hasAttacked();
 							}
 						} else {
 							Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
-							if (!attackingCard.hasAlreadyAttacked() && !(attackedCard instanceof IInvisible) &&  !(attackingCard instanceof IPlayerFocused)) {
+							if (!attackingCard.hasAlreadyAttacked() && !(attackedCard instanceof IInvisible)
+									&& !(attackingCard instanceof IPlayerFocused)) {
 								handleAttackAgainstCard(carteAttaquante, carteCible, adversaire);
 								attackingCard.hasAttacked();
 							}
@@ -369,20 +373,17 @@ public class Joueur {
 	}
 
 	private boolean handleAttackAgainstPlayer(Card attackingCard, Joueur adversaire) throws IOException {
-		int damage  = attackingCard.getAttack();
-		if(attackingCard instanceof IAntiPlayer)
-		{
+		int damage = attackingCard.getAttack();
+		if (attackingCard instanceof IAntiPlayer) {
 			damage *= 2;
 		}
-		
-		if(attackingCard instanceof IShortRange)
-		{
+
+		if (attackingCard instanceof IShortRange) {
 			damage = 0;
 		}
-		
+
 		boolean result = adversaire.takeDamage(damage);
-		if(!result)
-		{
+		if (!result) {
 			adversaire.updateHp(this);
 			return false;
 		}
@@ -394,13 +395,13 @@ public class Joueur {
 		coms.send(pV);
 		adversaire.coms.send(Command.SET_ENEMY_HP);
 		adversaire.coms.send(pV);
-		
+
 	}
 
-	private void handleAttackAgainstCard(String carteAttaquante, String carteCible, Joueur adversaire) throws IOException {
+	private void handleAttackAgainstCard(String carteAttaquante, String carteCible, Joueur adversaire)
+			throws IOException {
 		Card attackedCard = adversaire.getBoard().getCardInZone(Integer.parseInt(carteCible));
 		Card attackingCard = board.getCardInZone(Integer.parseInt(carteAttaquante));
-
 
 		if (attackedCard == null) {
 			throw new RuntimeException(
@@ -408,50 +409,37 @@ public class Joueur {
 		}
 
 		boolean isDestroyed = attackedCard.takeDamage(attackingCard.getAttack());
-		if(attackingCard instanceof ILifeSteal)
-		{
+		if (attackingCard instanceof ILifeSteal) {
 			attackingCard.heal(attackingCard.getAttack());
-			
+
 			updateCardHp(attackingCard, this);
 		}
-		
+
 		if (isDestroyed || attackingCard instanceof IToxic) {
-			adversaire.destroyCard(carteCible,this);
-		}else {
-			adversaire.updateCardHp(attackedCard, this);
-			
-			//cette partie est le fightback C.A.D quand tu attaque une carte si elle survit elle te frape a son tour
-			if(attackedCard.getAttack() > 0 && !(attackingCard instanceof ICanDoge))
-			{
-				isDestroyed = attackingCard.takeDamage(attackedCard.getAttack());
-				if(isDestroyed)
-				{
-					// on suprime la carte du terrain
-					board.setCard(Integer.parseInt(carteAttaquante), null);
+			adversaire.destroyCard(carteCible, this);
+		}
 
-					// demande a l'adversaire de retirer la carte de son terrain
-					adversaire.getComs().send(Command.DESTROY_ADV_CARD);
-					adversaire.getComs().send(carteAttaquante);
+		adversaire.updateCardHp(attackedCard, this);
 
-					// retire la carte au terrain adverse
-					this.getComs().send(Command.DESTROY_CARD);
-					this.getComs().send(carteAttaquante);
-
-					// appelle les effet de quand la carte est détruite
-					// NOTE : non implémenter dans les cartes individuelles par manque de temps
-					attackingCard.onCardDestroyed();
-				}else {
-					adversaire.updateCardHp(attackingCard, this);
-				}
-				
+		// cette partie est le fightback C.A.D quand tu attaque une carte si elle survit
+		// elle te frape a son tour
+		System.out.println(attackedCard.getAttack() + "       " + !(attackingCard instanceof ICanDoge));
+		if (attackedCard.getAttack() > 0 && !(attackingCard instanceof ICanDoge)) {
+			System.out.println("Fight back started");
+			isDestroyed = attackingCard.takeDamage(attackedCard.getAttack());
+			if (isDestroyed || attackedCard instanceof IToxic) {
+				System.out.println("destroying");
+				this.destroyCard(carteAttaquante, adversaire);
+			} else {
+				System.out.println("the card took" + attackedCard.getAttack());
+				updateCardHp(attackedCard, adversaire);
 			}
+
 		}
 
 	}
 
-	
-	private void destroyCard(String carteCible,Joueur adversaire) throws IOException
-	{
+	private void destroyCard(String carteCible, Joueur adversaire) throws IOException {
 		Card attackedCard = getBoard().getCardInZone(Integer.parseInt(carteCible));
 
 		board.setCard(Integer.parseInt(carteCible), null);
@@ -463,111 +451,109 @@ public class Joueur {
 		// retire la carte au terrain adverse
 		adversaire.getComs().send(Command.DESTROY_ADV_CARD);
 		adversaire.getComs().send(carteCible);
-		
+
 		// appelle les effet de quand la carte est détruite
 		// NOTE : non implémenter dans les cartes individuelles par manque de temps
 		attackedCard.onCardDestroyed();
 	}
-	
-	
+
 	/**
 	 * met a jorus les hp d'une carte tout ce passe du poin de vue du joueur
+	 * 
 	 * @param cardToUpDate
 	 * @param adversaire
 	 * @throws IOException
 	 */
-	private void updateCardHp(Card cardToUpDate,Joueur adversaire) throws IOException
-	{
-		int zone  = board.getZoneOf(cardToUpDate);
-		if(zone == -1)return;
+	private void updateCardHp(Card cardToUpDate, Joueur adversaire) throws IOException {
+		int zone = board.getZoneOf(cardToUpDate);
+		if (zone == -1)
+			return;
 		adversaire.getComs().send(Command.SET_ADV_CARD_HP);
-		adversaire.getComs().send(zone+"");
+		adversaire.getComs().send(zone + "");
 		adversaire.getComs().send(cardToUpDate.getHealth());
-		
+
 		this.getComs().send(Command.SET_CARD_HP);
-		this.getComs().send(zone+"");
+		this.getComs().send(zone + "");
 		this.getComs().send(cardToUpDate.getHealth());
 	}
-	
+
 	/**
 	 * met a jorus les dmg d'une carte tout ce passe du poin de vue du joueur
+	 * 
 	 * @param cardToUpDate
 	 * @param adversaire
 	 * @throws IOException
 	 */
-	private void updateCardAtk(Card cardToUpDate,Joueur adversaire) throws IOException
-	{
-		int zone  = board.getZoneOf(cardToUpDate);
-		if(zone == -1)return;
-		adversaire.getComs().send(Command.SET_ADV_CARD_ATK);
-		adversaire.getComs().send(zone+"");
-		adversaire.getComs().send(cardToUpDate.getAttack());
+	private void updateCardAtk(Card cardToUpDate, Joueur adversaire) throws IOException {
+		int zone = board.getZoneOf(cardToUpDate);
+		if (zone == -1)
+			return;
 		
+		System.out.println("updating card "+cardToUpDate+" of "+name);
+		
+		adversaire.getComs().send(Command.SET_ADV_CARD_ATK);
+		adversaire.getComs().send(zone + "");
+		adversaire.getComs().send(cardToUpDate.getAttack());
+
 		this.getComs().send(Command.SET_CARD_ATK);
-		this.getComs().send(zone+"");
+		this.getComs().send(zone + "");
 		this.getComs().send(cardToUpDate.getAttack());
 	}
 
 	private Board getBoard() {
 		return board;
 	}
-	
+
 	/**
 	 * inflige des degats au joueur
+	 * 
 	 * @param amount
 	 * @return true si les pv du joueur on attein zero
 	 */
-	public boolean takeDamage(int amount)
-	{
+	public boolean takeDamage(int amount) {
 		pV -= amount;
 		pV = pV > 0 ? pV : 0;
 		return pV == 0;
-		
+
 	}
 
 	public void onTurnStart(Joueur adversaire) throws IOException {
 		int index = 0;
 		Iterator<Card> it = board.getIterator();
-		while(it.hasNext())
-		{
+		while (it.hasNext()) {
 			Card c = it.next();
-			if(c != null)
-			{
+			if (c != null) {
 				c.onTurnStart();
-				if(!(c.getHealth() == 0))
-				{
+				if (!(c.getHealth() == 0)) {
 					updateCardHp(c, adversaire);
 					updateCardAtk(c, adversaire);
-				}else {
-					destroyCard(index+"", adversaire);
+				} else {
+					destroyCard(index + "", adversaire);
 				}
-				
+
 			}
 			index++;
 		}
-		
+
 	}
-	
+
 	public void refreshAllCard(Joueur adversaire) throws IOException {
 		int index = 0;
 		Iterator<Card> it = board.getIterator();
-		while(it.hasNext())
-		{
+		while (it.hasNext()) {
 			Card c = it.next();
-			if(c != null)
-			{
-				if(!(c.getHealth() == 0))
-				{
+			if (c != null) {
+				if (!(c.getHealth() == 0)) {
 					updateCardHp(c, adversaire);
 					updateCardAtk(c, adversaire);
-				}else {
-					destroyCard(index+"", adversaire);
+				} else {
+					destroyCard(index + "", adversaire);
 				}
-				
+
 			}
 			index++;
 		}
-		
+
 	}
 
 	public Deck getDeck() {

@@ -12,11 +12,11 @@ public class Match extends Thread {
 		// random j2/j1
 		rand = new Random();
 		if (rand.nextBoolean()) {
-			joueur1 = new Joueur(joueur1Com);
-			joueur2 = new Joueur(joueur2Com);
+			joueur1 = new Joueur(joueur1Com,"j1");
+			joueur2 = new Joueur(joueur2Com,"j2");
 		} else {
-			joueur1 = new Joueur(joueur2Com);
-			joueur2 = new Joueur(joueur1Com);
+			joueur1 = new Joueur(joueur2Com,"j1");
+			joueur2 = new Joueur(joueur1Com,"j2");
 		}
 
 		joueur1.requestDataEarlyGameData();

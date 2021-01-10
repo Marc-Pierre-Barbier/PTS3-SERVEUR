@@ -77,7 +77,7 @@ public abstract class Card{
     	}else {
     		health -= amountOfHpToLose;
     	}
-		return health == 0;
+		return health <= 0;
     }
     
 	public boolean hasAlreadyAttacked() {
